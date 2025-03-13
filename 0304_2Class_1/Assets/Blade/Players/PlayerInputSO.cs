@@ -9,7 +9,8 @@ namespace Blade.Players
     {
         public event Action<Vector2> OnMovementChange;
         public event Action OnAttackPressed;
-        public event Action OnRollingPressed;
+        public event Action OnJumpPressed;
+        public event Action<bool> OnSprintPressed;
 
         private Controls _controls;
 
@@ -40,10 +41,18 @@ namespace Blade.Players
                 OnAttackPressed?.Invoke();
         }
 
-        public void OnRolling(InputAction.CallbackContext context)
+        public void OnJump(InputAction.CallbackContext context)
         {
-            if(context.performed)
-                OnRollingPressed?.Invoke();
+            if (context.performed)
+                OnJumpPressed?.Invoke();
+        }
+
+        public void OnSprint(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                OnSprintPressed?.Invoke(true);
+            else if(context.canceled)
+                OnSprintPressed?.Invoke(false);
         }
     }
 }

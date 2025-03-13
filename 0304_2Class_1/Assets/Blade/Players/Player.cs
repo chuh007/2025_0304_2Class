@@ -1,26 +1,37 @@
+using Blade.Entities;
+using Blade.FSM;
 using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Blade.Players
 {
-    public class Player : MonoBehaviour
+    public class Player : Entity
     {
-        [SerializeField] private CharacterMovement movement;
-        [SerializeField] private PlayerInputSO playerInput;
+        [field: SerializeField] public PlayerInputSO PlayerInput { get; private set; }
 
-        private void Awake()
+        [SerializeField] private StateDataSO[] states;
+
+        private EntityStateMachine _stateMachine;
+
+        protected override void Awake()
         {
-            playerInput.OnMovementChange += HandleMovementChange;
+            base.Awake();
+            _stateMachine = new EntityStateMachine(this, states);
         }
 
-        private void OnDestroy()
+        private void Start()
         {
-            playerInput.OnMovementChange -= HandleMovementChange;
+            _stateMachine.ChangeState("IDLE");
         }
 
-        private void HandleMovementChange(Vector2 movementInput)
+        private void Update()
         {
-            movement.SetMovementDirection(movementInput);
+            _stateMachine.UpdateStateMachine();
         }
+
+        public void ChangeState(string newStatName) => _stateMachine.ChangeState(newStatName);
+
     }
 }
