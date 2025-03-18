@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Blade.Players.States
 {
-    public class PlayerIdleState : PlayerState
+    public class PlayerIdleState : PlayerCanAttackState
     {
 
         public PlayerIdleState(Entity entity, int animationHash) : base(entity, animationHash)
@@ -16,6 +16,7 @@ namespace Blade.Players.States
         {
             base.Enter();
             _player.PlayerInput.OnMovementChange += HandleMovementChange;
+            
         }
 
         public override void Exit()

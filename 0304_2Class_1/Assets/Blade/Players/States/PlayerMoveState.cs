@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Blade.Players.States
 {
-    public class PlayerMoveState : PlayerState
+    public class PlayerMoveState : PlayerCanAttackState
     {
         
         public PlayerMoveState(Entity entity, int animationHash) : base(entity, animationHash)

@@ -84,4 +84,8 @@ public class CharacterMovement : MonoBehaviour, IEntityComponent
         controller.Move(_velocity);
     }
 
+    public void StopImmediately()
+    {
+        _movementDirection = Vector3.zero;
+    }
 }

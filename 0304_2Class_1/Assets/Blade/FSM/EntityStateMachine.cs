@@ -17,7 +17,7 @@ namespace Blade.FSM
             foreach (StateDataSO state in stateList)
             {
                 Type type = Type.GetType(state.className);
-                Debug.Assert(type != null, $"Finding type is numm : {state.className}");
+                Debug.Assert(type != null, $"Finding type is null : {state.className}");
                 EntityState entityState = Activator.CreateInstance(type, entity, state.aniamtionHash)
                                                                                     as EntityState;
 

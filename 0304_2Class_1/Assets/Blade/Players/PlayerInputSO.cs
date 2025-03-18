@@ -22,6 +22,7 @@ namespace Blade.Players
                 _controls.Player.SetCallbacks(this);
             }
             _controls.Enable();
+            
         }
 
         private void OnDisable()

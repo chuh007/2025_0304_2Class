@@ -31,7 +31,7 @@ namespace Blade.Test
 
         public void Introduce()
         {
-            Debug.Log($"{age}»ì, {name}ÀÔ´Ï´Ù.");
+            Debug.Log($"{age}ì‚´, {name}ì…ë‹ˆë‹¤.");
             number++;
         }
     }
@@ -49,22 +49,22 @@ namespace Blade.Test
 
             TypeBuilder newType = newModule.DefineType("SumTo100");
 
-            //ÀÌ¸§, Á¢±ÙÁ¦¾îÀÚ, ¹İÈ¯Çü½Ä, ¸Å°³º¯¼ö
+            //ì´ë¦„, ì ‘ê·¼ì œì–´ì, ë°˜í™˜í˜•ì‹, ë§¤ê°œë³€ìˆ˜
             MethodBuilder newMethod = newType.DefineMethod("Print", MethodAttributes.Public, typeof(int), Type.EmptyTypes);
 
             ILGenerator generator = newMethod.GetILGenerator();
-            generator.Emit(OpCodes.Ldc_I4, 1);  //½ºÅÃ¿¡ 32ºñÆ® Á¤¼ö 1³Ö°í
+            generator.Emit(OpCodes.Ldc_I4, 1);  //ìŠ¤íƒì— 32ë¹„íŠ¸ ì •ìˆ˜ 1ë„£ê³ 
                                                 //LDC_I4 => Load Constant _integer 4
             for (int i = 2; i <= 100; ++i)
             {
                 generator.Emit(OpCodes.Ldc_I4, i);
-                generator.Emit(OpCodes.Add); //½ºÅÃÀÇ ¸¶Áö¸· µÎ °ªÀ» ²¨³» ´õÇÑµÚ¿¡ °á°ú¹°À» ´Ù½Ã push
+                generator.Emit(OpCodes.Add); //ìŠ¤íƒì˜ ë§ˆì§€ë§‰ ë‘ ê°’ì„ êº¼ë‚´ ë”í•œë’¤ì— ê²°ê³¼ë¬¼ì„ ë‹¤ì‹œ push
             }
             generator.Emit(OpCodes.Ret);
 
 
             Type t = newType.CreateType();
-            //¸¸µé±â ³¡³µÀ¸¸é ÀÌ Å¸ÀÔÀ¸·Î »ı¼ºÇÏ°í »ç¿ë °¡´É    
+            //ë§Œë“¤ê¸° ëë‚¬ìœ¼ë©´ ì´ íƒ€ì…ìœ¼ë¡œ ìƒì„±í•˜ê³  ì‚¬ìš© ê°€ëŠ¥    
             object sumTo100 = Activator.CreateInstance(t);
             MethodInfo print = sumTo100.GetType().GetMethod("Print");
             int result = (int)print.Invoke(sumTo100, null);
@@ -76,9 +76,9 @@ namespace Blade.Test
         //{
         //    Type t = typeof(MyClass);
 
-        //    MyClass mc1 = Activator.CreateInstance(t, 20, "ÃÖ¼±ÇÑ", 30) as MyClass;
+        //    MyClass mc1 = Activator.CreateInstance(t, 20, "ìµœì„ í•œ", 30) as MyClass;
 
-        //    Stopwatch stopWatch = new Stopwatch(); //½Ã°£ ÃøÁ¤
+        //    Stopwatch stopWatch = new Stopwatch(); //ì‹œê°„ ì¸¡ì •
         //    stopWatch.Start();
         //    int dummy = 40;
         //    for (int i = 0; i < 50000; ++i)
@@ -89,11 +89,11 @@ namespace Blade.Test
         //    }
 
         //    stopWatch.Stop();
-        //    Debug.Log($"ÀÏ¹İ ½Ã°£ : {stopWatch.ElapsedMilliseconds}ms");
+        //    Debug.Log($"ì¼ë°˜ ì‹œê°„ : {stopWatch.ElapsedMilliseconds}ms");
 
         //    stopWatch.Start();
         //    dummy = 40;
-        //    FieldInfo ageField = t.GetField("testObj"); //ÀÌ¸§À¸·Î °¡Á®¿À±âµµ °¡´É
+        //    FieldInfo ageField = t.GetField("testObj"); //ì´ë¦„ìœ¼ë¡œ ê°€ì ¸ì˜¤ê¸°ë„ ê°€ëŠ¥
         //    TestObj testObj = ageField.GetValue(mc1) as TestObj;
         //    for (int i = 0; i < 50000; ++i)
         //    {
@@ -103,7 +103,7 @@ namespace Blade.Test
         //    }
 
         //    stopWatch.Stop();
-        //    Debug.Log($"¸®ÇÃ·º¼Ç ½Ã°£ : {stopWatch.ElapsedMilliseconds}ms");
+        //    Debug.Log($"ë¦¬í”Œë ‰ì…˜ ì‹œê°„ : {stopWatch.ElapsedMilliseconds}ms");
         //}
 
 
@@ -126,7 +126,7 @@ namespace Blade.Test
         private void CreateTest()
         {
             Type t = typeof(MyClass);
-            myClass = Activator.CreateInstance(t, 17, "ÀåÁØ¼­", 1) as MyClass;
+            myClass = Activator.CreateInstance(t, 17, "ì¥ì¤€ì„œ", 1) as MyClass;
         }
 
         public int testAge;
