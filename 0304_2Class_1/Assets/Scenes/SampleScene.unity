@@ -280,8 +280,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 3
+  far clip plane: 100
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
@@ -870,8 +870,8 @@ MonoBehaviour:
   Lens:
     FieldOfView: 60.000004
     OrthographicSize: 5
-    NearClipPlane: 0.3
-    FarClipPlane: 1000
+    NearClipPlane: 3
+    FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -1410,7 +1410,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1bde8674b3546e68411908cb45fd80d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDataList:
+  - {fileID: 11400000, guid: 3efbfd6c39dc15c4294453f450b99fae, type: 2}
+  - {fileID: 11400000, guid: d02ee7d3a74abc14c80e9b615492be77, type: 2}
+  - {fileID: 11400000, guid: 0bd5dcfc41a70994f8e04b9dbd07a92c, type: 2}
   comboWindow: 0.7
+  useMouseDirection: 1
 --- !u!1 &2058185042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,6 +1489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23426450a002f934781e69d83e894018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugTrm: {fileID: 0}
   <PlayerInput>k__BackingField: {fileID: 11400000, guid: 5e1d0b68f66a5b9409c65a1f32162cee, type: 2}
   states:
   - {fileID: 11400000, guid: 7a098642aef7fae4aace4f89d94d62ad, type: 2}

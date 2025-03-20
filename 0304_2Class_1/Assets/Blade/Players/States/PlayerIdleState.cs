@@ -12,25 +12,16 @@ namespace Blade.Players.States
         {
         }
 
-        public override void Enter()
+        public override void Update()
         {
-            base.Enter();
-            _player.PlayerInput.OnMovementChange += HandleMovementChange;
+            base.Update();
+            Vector2 movementKey = _player.PlayerInput.MovementKey;
             
-        }
-
-        public override void Exit()
-        {
-            _player.PlayerInput.OnMovementChange -= HandleMovementChange;
-            base.Exit();
-        }
-
-        private void HandleMovementChange(Vector2 movementKey)
-        {
             _movement.SetMovementDirection(movementKey);
             if (movementKey.magnitude > _inputThreshold)
                 _player.ChangeState("MOVE");
         }
+
     }
 }
 

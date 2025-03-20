@@ -11,23 +11,17 @@ namespace Blade.Players.States
         public PlayerMoveState(Entity entity, int animationHash) : base(entity, animationHash)
         {
         }
-        public override void Enter()
-        {
-            base.Enter();
-            _player.PlayerInput.OnMovementChange += HandleMovementChange;
-        }
-        public override void Exit()
-        {
-            _player.PlayerInput.OnMovementChange -= HandleMovementChange;
-            base.Exit();
-        }
 
-        private void HandleMovementChange(Vector2 movementKey)
+        public override void Update()
         {
+            base.Update();
+            Vector2 movementKey = _player.PlayerInput.MovementKey;
+            
             _movement.SetMovementDirection(movementKey);
             if (movementKey.magnitude < _inputThreshold)
                 _player.ChangeState("IDLE");
         }
+
     }
 }
 

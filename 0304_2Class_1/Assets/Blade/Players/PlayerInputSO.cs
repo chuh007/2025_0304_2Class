@@ -7,12 +7,16 @@ namespace Blade.Players
     [CreateAssetMenu(fileName = "PlayerInputSO", menuName = "SO/PlayerInputSO")]
     public class PlayerInputSO : ScriptableObject, Controls.IPlayerActions
     {
-        public event Action<Vector2> OnMovementChange;
+        [SerializeField] private LayerMask whatIsGround;
+        // public event Action<Vector2> OnMovementChange;
         public event Action OnAttackPressed;
-        public event Action OnJumpPressed;
-        public event Action<bool> OnSprintPressed;
+        public event Action OnRollingPressed;
+        
+        public Vector2 MovementKey {get; private set;}
 
         private Controls _controls;
+        private Vector2 _screenPosition; // 마우스 좌표
+        private Vector3 _worldPosition;
 
         private void OnEnable()
         {
@@ -32,8 +36,7 @@ namespace Blade.Players
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            Vector2 movement = context.ReadValue<Vector2>();
-            OnMovementChange?.Invoke(movement);
+            MovementKey = context.ReadValue<Vector2>();
         }
 
         public void OnAttack(InputAction.CallbackContext context)
@@ -42,18 +45,27 @@ namespace Blade.Players
                 OnAttackPressed?.Invoke();
         }
 
-        public void OnJump(InputAction.CallbackContext context)
+        public void OnPointer(InputAction.CallbackContext context)
         {
-            if (context.performed)
-                OnJumpPressed?.Invoke();
+            _screenPosition = context.ReadValue<Vector2>();
         }
 
-        public void OnSprint(InputAction.CallbackContext context)
+        public void OnRolling(InputAction.CallbackContext context)
         {
-            if (context.performed)
-                OnSprintPressed?.Invoke(true);
-            else if(context.canceled)
-                OnSprintPressed?.Invoke(false);
+            if(context.performed)
+                OnRollingPressed?.Invoke();
+        }
+
+        public Vector3 GetWorldPosition()
+        {
+            Camera mainCam = Camera.main;
+            Debug.Assert(mainCam != null,"No main camera");
+            Ray camRay = mainCam.ScreenPointToRay(_screenPosition);
+            if (Physics.Raycast(camRay, out RaycastHit hit, mainCam.farClipPlane, whatIsGround))
+            {
+                _worldPosition = hit.point;
+            }
+            return _worldPosition;
         }
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerCombo2
   m_EditorClassIdentifier: 
   attackName: PlayerCombo2
-  movementPower: 3
+  movementPower: 1.8
   damageMultiplier: 1.2
   damageIncrease: 0
   isPowerAttakc: 1

@@ -6,6 +6,7 @@ namespace Blade.Entities
     public class EntityAnimatorTrigger : MonoBehaviour, IEntityComponent
     {
         public Action OnAnimationEndTrigger;
+        public Action OnAnimationEventTrigger;
         
         private Entity _entity;
         
@@ -15,6 +16,11 @@ namespace Blade.Entities
         }
 
         private void AnimationEnd()
+        {
+            OnAnimationEndTrigger?.Invoke();
+        }
+
+        private void RollingEnd()
         {
             OnAnimationEndTrigger?.Invoke();
         }

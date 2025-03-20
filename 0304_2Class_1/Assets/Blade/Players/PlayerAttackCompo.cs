@@ -1,10 +1,13 @@
+using Blade.Combat;
 using Blade.Entities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Blade.Players
 {
     public class PlayerAttackCompo : MonoBehaviour, IEntityComponent
     {
+        [FormerlySerializedAs("attackDatas")] [SerializeField] private AttackDataSO[] attackDataList;
         [SerializeField] private float comboWindow = 0.7f;
         private Entity _entity;
         private EntityAnimator _entityAnimator;
@@ -15,7 +18,15 @@ namespace Blade.Players
         private float _attackSpeed = 1f;
         private float _lastAttackTime;
 
+        public bool useMouseDirection;
+        
         public int ComboCounter { get; set; } = 0;
+
+        public AttackDataSO GetCurrentAttackData()
+        {
+            Debug.Assert(attackDataList.Length>ComboCounter, "Comdo counter is out if range");
+            return attackDataList[ComboCounter];
+        }
         
         public float AttackSpeed
         {

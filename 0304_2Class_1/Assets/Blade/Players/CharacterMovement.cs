@@ -19,6 +19,8 @@ public class CharacterMovement : MonoBehaviour, IEntityComponent
     }
 
     public bool isGround => controller.isGrounded;
+    public bool CanManualMovement { get; set; } = true;
+    private Vector3 _autoMovement;
 
     private Vector3 _velocity;
     public Vector3 Velocity => _velocity;
@@ -57,9 +59,16 @@ public class CharacterMovement : MonoBehaviour, IEntityComponent
     }
     private void CalculateMovement()
     {
-        _velocity = Quaternion.Euler(0, -45f, 0) * _movementDirection;
-        _velocity *= (isSprint ? moveSpeed * SprintSpeedMultiplier : moveSpeed) * Time.fixedDeltaTime;
-
+        if (CanManualMovement)
+        {
+            _velocity = Quaternion.Euler(0, -45f, 0) * _movementDirection;
+            _velocity *= (isSprint ? moveSpeed * SprintSpeedMultiplier : moveSpeed) * Time.fixedDeltaTime;
+        }
+        else
+        {
+            _velocity = _autoMovement * Time.fixedDeltaTime;
+        }
+        
         if (_velocity.magnitude > 0)
         {
             Quaternion targetRot = Quaternion.LookRotation(_velocity);
@@ -88,4 +97,6 @@ public class CharacterMovement : MonoBehaviour, IEntityComponent
     {
         _movementDirection = Vector3.zero;
     }
+    
+    public void SetAutoMovement(Vector3 autoMovement) => _autoMovement = autoMovement;
 }
