@@ -1055,8 +1055,8 @@ GameObject:
   - component: {fileID: 1503081957}
   - component: {fileID: 1503081956}
   - component: {fileID: 1503081955}
-  - component: {fileID: 1503081954}
   - component: {fileID: 1503081959}
+  - component: {fileID: 1503081960}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -1064,22 +1064,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1503081954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1503081953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a552e1c0b079f314bad80e9127b72de9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerInputSO: {fileID: 11400000, guid: 5e1d0b68f66a5b9409c65a1f32162cee, type: 2}
-  _rb: {fileID: 0}
-  movement: {x: 0, y: 0, z: 0}
-  pos: {x: 0, y: 0, z: 0}
 --- !u!136 &1503081955
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1198,6 +1182,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1503081960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503081953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a552e1c0b079f314bad80e9127b72de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInputSO: {fileID: 11400000, guid: 5e1d0b68f66a5b9409c65a1f32162cee, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
