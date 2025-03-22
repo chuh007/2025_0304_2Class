@@ -35,14 +35,16 @@ namespace Blade.Test
 
         private void Update()
         {
-            if(transform.position == pos) _rb.linearVelocity = Vector3.zero;
+            if (Vector3.Distance(transform.position, pos) < 0.1f) _rb.linearVelocity = Vector3.zero;
             else _rb.linearVelocity = movement * 3f;
         }
 
         private Vector3 GetPlayerDirection()
         {
-            Vector3 targetPosition = playerInputSO.GetWorldPosition();
-            Vector3 direction = targetPosition - transform.position;
+            pos = playerInputSO.GetWorldPosition();
+            pos.y = transform.position.y;
+            Debug.Log(pos);
+            Vector3 direction = pos - transform.position;
             direction.y = 0;
             return direction;
         }
