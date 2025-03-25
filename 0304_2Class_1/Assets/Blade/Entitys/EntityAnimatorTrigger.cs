@@ -6,7 +6,7 @@ namespace Blade.Entities
     public class EntityAnimatorTrigger : MonoBehaviour, IEntityComponent
     {
         public Action OnAnimationEndTrigger;
-        public Action OnAnimationEventTrigger;
+        public Action<bool> OnRollingStatusChange;
         
         private Entity _entity;
         
@@ -19,10 +19,8 @@ namespace Blade.Entities
         {
             OnAnimationEndTrigger?.Invoke();
         }
-
-        private void RollingEnd()
-        {
-            OnAnimationEndTrigger?.Invoke();
-        }
+        
+        private void RollingStart() => OnRollingStatusChange?.Invoke(true);
+        private void RollingEnd() => OnRollingStatusChange?.Invoke(false);
     }
 }

@@ -1489,12 +1489,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23426450a002f934781e69d83e894018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugTrm: {fileID: 0}
   <PlayerInput>k__BackingField: {fileID: 11400000, guid: 5e1d0b68f66a5b9409c65a1f32162cee, type: 2}
   states:
   - {fileID: 11400000, guid: 7a098642aef7fae4aace4f89d94d62ad, type: 2}
   - {fileID: 11400000, guid: 6ac179671753f1d4aa113f67322ffc17, type: 2}
   - {fileID: 11400000, guid: 728c42f099c586a41bdaa78991295f58, type: 2}
+  - {fileID: 11400000, guid: 100fa2e4c92882c40b8bc976a105f4f7, type: 2}
+  rollingVelocity: 2.2
 --- !u!1001 &2084093692
 PrefabInstance:
   m_ObjectHideFlags: 0

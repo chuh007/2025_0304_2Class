@@ -27,13 +27,13 @@ namespace Blade.FSM
 
         public void ChangeState(string newStateName, bool forced = false)
         {
-            CurrentState?.Exit();
             EntityState newState = _states.GetValueOrDefault(newStateName);
             Debug.Assert(newState != null, $"State is null {newStateName}");
 
             if(!forced && CurrentState ==newState)
                 return;
             
+            CurrentState?.Exit();
             CurrentState = newState;
             CurrentState.Enter();
         }
