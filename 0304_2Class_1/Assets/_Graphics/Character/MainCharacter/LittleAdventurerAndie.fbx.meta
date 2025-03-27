@@ -38,7 +38,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: ResultChecking.005
-    second: {fileID: 2100000, guid: bdd2fceb805e0f04daef77965c3dd14a, type: 2}
+    second: {fileID: 2100000, guid: 269570049dee99348b504e99c6ec8054, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -119,8 +119,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.42528525
+      - time: 0.4405701
         functionName: AnimationEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.102564104
+        functionName: PlayAttackVFX
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -155,8 +162,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.4686542
+      - time: 0.5109359
         functionName: AnimationEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.11242604
+        functionName: PlayAttackVFX
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -191,8 +205,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.5563735
+      - time: 0.647714
         functionName: AnimationEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.16568047
+        functionName: PlayAttackVFX
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -321,13 +342,6 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.70474017
-        functionName: RollingEnd
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
       - time: 0.986014
         functionName: AnimationEnd
         data: 
@@ -335,7 +349,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.25096527
+      - time: 0.793578
+        functionName: RollingEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.16055046
         functionName: RollingStart
         data: 
         objectReferenceParameter: {instanceID: 0}

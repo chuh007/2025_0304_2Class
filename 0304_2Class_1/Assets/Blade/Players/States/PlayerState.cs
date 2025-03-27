@@ -1,7 +1,5 @@
 using Blade.Entities;
 using Blade.FSM;
-using System;
-using UnityEngine;
 
 namespace Blade.Players.States
 {
@@ -9,13 +7,12 @@ namespace Blade.Players.States
     {
         protected Player _player;
         protected readonly float _inputThreshold = 0.1f;
-
         protected CharacterMovement _movement;
-        public PlayerState(Entity entity, int animationHash) : base(entity, animationHash)
+        
+        protected PlayerState(Entity entity, int animationHash) : base(entity, animationHash)
         {
             _player = entity as Player;
             _movement = entity.GetCompo<CharacterMovement>();
         }
     }
-
 }

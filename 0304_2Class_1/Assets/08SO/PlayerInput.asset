@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 279a1939dd5f1284c83af9f0be32b9fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a323f20bd2842d7b5b980df2dd46bad, type: 3}
   m_Name: PlayerInput
   m_EditorClassIdentifier: 
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8

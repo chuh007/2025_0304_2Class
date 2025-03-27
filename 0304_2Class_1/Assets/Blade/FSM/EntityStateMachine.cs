@@ -1,7 +1,8 @@
-using Blade.Entities;
-using System.Collections.Generic;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Reflection;
+using Blade.Entities;
+using UnityEngine;
 
 namespace Blade.FSM
 {
@@ -18,9 +19,8 @@ namespace Blade.FSM
             {
                 Type type = Type.GetType(state.className);
                 Debug.Assert(type != null, $"Finding type is null : {state.className}");
-                EntityState entityState = Activator.CreateInstance(type, entity, state.aniamtionHash)
-                                                                                    as EntityState;
-
+                EntityState entityState = Activator.CreateInstance(type, entity, state.animationHash)
+                                        as EntityState;
                 _states.Add(state.stateName, entityState);
             }
         }
@@ -29,8 +29,8 @@ namespace Blade.FSM
         {
             EntityState newState = _states.GetValueOrDefault(newStateName);
             Debug.Assert(newState != null, $"State is null {newStateName}");
-
-            if(!forced && CurrentState ==newState)
+            
+            if (!forced && CurrentState == newState)
                 return;
             
             CurrentState?.Exit();
@@ -42,6 +42,6 @@ namespace Blade.FSM
         {
             CurrentState?.Update();
         }
+
     }
 }
-

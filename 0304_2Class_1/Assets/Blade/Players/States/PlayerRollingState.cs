@@ -5,13 +5,11 @@ namespace Blade.Players.States
 {
     public class PlayerRollingState : PlayerState
     {
-        private CharacterMovement _movement;
         private bool _isRolling;
         private Vector3 _rollingDirection;
         
         public PlayerRollingState(Entity entity, int animationHash) : base(entity, animationHash)
         {
-            _movement = entity.GetCompo<CharacterMovement>();
         }
 
         public override void Enter()

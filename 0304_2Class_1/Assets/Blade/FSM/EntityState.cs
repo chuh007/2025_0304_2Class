@@ -1,5 +1,4 @@
 using Blade.Entities;
-using UnityEngine;
 
 namespace Blade.FSM
 {
@@ -26,14 +25,12 @@ namespace Blade.FSM
             _animatorTrigger.OnAnimationEndTrigger += AnimationEndTrigger;
         }
 
-        
-        public virtual void Update() { }
+        public virtual void Update(){ }
 
         public virtual void Exit()
         {
-            _entityAnimator.SetParam(_animationHash, false);
             _animatorTrigger.OnAnimationEndTrigger -= AnimationEndTrigger;
-
+            _entityAnimator.SetParam(_animationHash, false);
         }
 
         public virtual void AnimationEndTrigger() => _isTriggerCall = true;

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Blade.Players
 {
-    [CreateAssetMenu(fileName = "PlayerInputSO", menuName = "SO/PlayerInputSO")]
+    [CreateAssetMenu(fileName = "PlayerInput", menuName = "SO/PlayerInput", order = 0)]
     public class PlayerInputSO : ScriptableObject, Controls.IPlayerActions
     {
         [SerializeField] private LayerMask whatIsGround;
@@ -12,21 +12,20 @@ namespace Blade.Players
         public event Action OnAttackPressed;
         public event Action OnRollingPressed;
         
-        public Vector2 MovementKey {get; private set;}
-
+        public Vector2 MovementKey { get; private set; }
+        
         private Controls _controls;
-        private Vector2 _screenPosition; // 마우스 좌표
+        private Vector2 _screenPosition; //마우스 좌표
         private Vector3 _worldPosition;
-
+        
         private void OnEnable()
         {
-            if(_controls == null)
+            if (_controls == null)
             {
                 _controls = new Controls();
                 _controls.Player.SetCallbacks(this);
             }
-            _controls.Enable();
-            
+            _controls.Player.Enable();
         }
 
         private void OnDisable()
@@ -45,26 +44,27 @@ namespace Blade.Players
                 OnAttackPressed?.Invoke();
         }
 
-        public void OnPointer(InputAction.CallbackContext context)
-        {
-            _screenPosition = context.ReadValue<Vector2>();
-        }
-
         public void OnRolling(InputAction.CallbackContext context)
         {
             if(context.performed)
                 OnRollingPressed?.Invoke();
         }
 
+        public void OnPointer(InputAction.CallbackContext context)
+        {
+            _screenPosition = context.ReadValue<Vector2>();
+        }
+
         public Vector3 GetWorldPosition()
         {
             Camera mainCam = Camera.main;
-            Debug.Assert(mainCam != null,"No main camera");
+            Debug.Assert(mainCam != null, "No main camera in this scene");
             Ray camRay = mainCam.ScreenPointToRay(_screenPosition);
             if (Physics.Raycast(camRay, out RaycastHit hit, mainCam.farClipPlane, whatIsGround))
             {
                 _worldPosition = hit.point;
             }
+
             return _worldPosition;
         }
     }

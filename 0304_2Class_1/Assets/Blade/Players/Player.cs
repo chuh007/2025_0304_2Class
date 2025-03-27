@@ -1,9 +1,7 @@
+using System;
 using Blade.Entities;
 using Blade.FSM;
-using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Blade.Players
 {
@@ -12,7 +10,7 @@ namespace Blade.Players
         [field: SerializeField] public PlayerInputSO PlayerInput { get; private set; }
 
         [SerializeField] private StateDataSO[] states;
-
+        
         private EntityStateMachine _stateMachine;
 
         #region Temp region
@@ -20,23 +18,22 @@ namespace Blade.Players
         public float rollingVelocity = 2.2f;
 
         #endregion
-        
         protected override void Awake()
         {
             base.Awake();
             _stateMachine = new EntityStateMachine(this, states);
-
+            
             PlayerInput.OnRollingPressed += HandleRollingKeyPressed;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             PlayerInput.OnRollingPressed -= HandleRollingKeyPressed;
         }
 
         private void HandleRollingKeyPressed()
         {
-            _stateMachine.ChangeState("ROLLING");
+            ChangeState("ROLLING");
         }
 
         private void Start()
@@ -48,8 +45,8 @@ namespace Blade.Players
         {
             _stateMachine.UpdateStateMachine();
         }
-
-        public void ChangeState(string newStatName) => _stateMachine.ChangeState(newStatName);
-
+        
+        public void ChangeState(string newStateName) => _stateMachine.ChangeState(newStateName);
+        
     }
 }

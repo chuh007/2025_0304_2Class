@@ -37,7 +37,6 @@ namespace Blade.Players.States
             if (_attackCompo.useMouseDirection == false)
                 return _player.transform.forward;
             
-            
             Vector3 targetPosition = _player.PlayerInput.GetWorldPosition();
             Vector3 direction = targetPosition - _player.transform.position;
             direction.y = 0;

@@ -11,14 +11,14 @@ namespace Blade.Test
     {
         public int testValue;
     }
-
+    
     [Serializable]
     public class MyClass
     {
         public int age;
         public string name;
         public TestObj testObj;
-
+        
         private int number;
 
         public MyClass(int age, string name, int number)
@@ -28,7 +28,7 @@ namespace Blade.Test
             this.number = number;
             testObj = new TestObj();
         }
-
+        
         public void Introduce()
         {
             Debug.Log($"{age}살, {name}입니다.");
@@ -48,13 +48,13 @@ namespace Blade.Test
             ModuleBuilder newModule = newAssembly.DefineDynamicModule("GGM");
 
             TypeBuilder newType = newModule.DefineType("SumTo100");
-
+    
             //이름, 접근제어자, 반환형식, 매개변수
             MethodBuilder newMethod = newType.DefineMethod("Print", MethodAttributes.Public, typeof(int), Type.EmptyTypes);
 
             ILGenerator generator = newMethod.GetILGenerator();
             generator.Emit(OpCodes.Ldc_I4, 1);  //스택에 32비트 정수 1넣고
-                                                //LDC_I4 => Load Constant _integer 4
+            //LDC_I4 => Load Constant _integer 4
             for (int i = 2; i <= 100; ++i)
             {
                 generator.Emit(OpCodes.Ldc_I4, i);
@@ -68,46 +68,13 @@ namespace Blade.Test
             object sumTo100 = Activator.CreateInstance(t);
             MethodInfo print = sumTo100.GetType().GetMethod("Print");
             int result = (int)print.Invoke(sumTo100, null);
-
+    
             Debug.Log(result);
         }
 
-        //void Start()
-        //{
-        //    Type t = typeof(MyClass);
 
-        //    MyClass mc1 = Activator.CreateInstance(t, 20, "최선한", 30) as MyClass;
-
-        //    Stopwatch stopWatch = new Stopwatch(); //시간 측정
-        //    stopWatch.Start();
-        //    int dummy = 40;
-        //    for (int i = 0; i < 50000; ++i)
-        //    {
-        //        int temp = mc1.age;
-        //        mc1.age = dummy;
-        //        dummy = temp;
-        //    }
-
-        //    stopWatch.Stop();
-        //    Debug.Log($"일반 시간 : {stopWatch.ElapsedMilliseconds}ms");
-
-        //    stopWatch.Start();
-        //    dummy = 40;
-        //    FieldInfo ageField = t.GetField("testObj"); //이름으로 가져오기도 가능
-        //    TestObj testObj = ageField.GetValue(mc1) as TestObj;
-        //    for (int i = 0; i < 50000; ++i)
-        //    {
-        //        int temp = testObj.testValue;
-        //        testObj.testValue = temp;
-        //        dummy = temp;
-        //    }
-
-        //    stopWatch.Stop();
-        //    Debug.Log($"리플렉션 시간 : {stopWatch.ElapsedMilliseconds}ms");
-        //}
-
-
-
+        
+        
         [ContextMenu("Test Reflection")]
         private void TestField()
         {
@@ -115,9 +82,9 @@ namespace Blade.Test
 
             //FieldInfo nameField = t.GetField(targetField, BindingFlags.NonPublic | BindingFlags.Public);
             FieldInfo[] fields = t.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
-
+            
             MethodInfo method = t.GetMethod("Introduce");
-
+            
             method?.Invoke(myClass, null);
             //Debug.Log( nameField.GetValue(myClass));
         }

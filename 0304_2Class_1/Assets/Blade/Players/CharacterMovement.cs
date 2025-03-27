@@ -1,102 +1,83 @@
-using Blade.Entities;
 using System;
-using TMPro;
+using Blade.Entities;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour, IEntityComponent
+namespace Blade.Players
 {
-    [SerializeField] private float moveSpeed = 8f;
-    [SerializeField] private float SprintSpeedMultiplier = 2f;
-    [SerializeField] private float gravity = -9.8f;
-    [SerializeField] private CharacterController controller;
-    [SerializeField] private TextMeshProUGUI SprintTxt;
-
-    private Entity _entity;
-
-    public void Initialize(Entity entity)
+    public class CharacterMovement : MonoBehaviour, IEntityComponent
     {
-        _entity = entity;
-    }
+        [SerializeField] private float moveSpeed = 8f;
+        [SerializeField] private float gravity = -9.8f;
+        [SerializeField] private CharacterController controller;
+        // [SerializeField] private Transform parent;
+        public bool IsGround => controller.isGrounded;
+        public bool CanManualMovement { get; set; } = true;
+        private Vector3 _autoMovement;
 
-    public bool isGround => controller.isGrounded;
-    public bool CanManualMovement { get; set; } = true;
-    private Vector3 _autoMovement;
+        private Vector3 _velocity;
+        public Vector3 Velocity => _velocity;
+        private float _verticalVelocity;
+        private Vector3 _movementDirection;
 
-    private Vector3 _velocity;
-    public Vector3 Velocity => _velocity;
-    private float _verticalVelocity;
-    private Vector3 _movementDirection;
-    private bool isSprint;
-
-    public void SetSprint(bool value)
-    {
-        isSprint = value;
-        SprintTxt.text = value ? "Sprint" : "Walk";
-    }
-
-    public void ToggleSprint()
-    {
-        isSprint = !isSprint;
-        SprintTxt.text = isSprint ? "Sprint" : "Walk";
-    }
-
-    public void SetMovementDirection(Vector2 movementInput)
-    {
-        _movementDirection = new Vector3(movementInput.x, 0, movementInput.y).normalized;
-    }
-
-    public void Jump()
-    {
-        if (isGround)
-            _verticalVelocity = Mathf.Sqrt(gravity * -0.5f);
-    }
-
-    private void FixedUpdate()
-    {
-        CalculateMovement();
-        ApplyGravity();
-        Move();
-    }
-    private void CalculateMovement()
-    {
-        if (CanManualMovement)
+        private Entity _entity;
+        public void Initialize(Entity entity)
         {
-            _velocity = Quaternion.Euler(0, -45f, 0) * _movementDirection;
-            _velocity *= (isSprint ? moveSpeed * SprintSpeedMultiplier : moveSpeed) * Time.fixedDeltaTime;
-        }
-        else
-        {
-            _velocity = _autoMovement * Time.fixedDeltaTime;
+            _entity = entity;
         }
         
-        if (_velocity.magnitude > 0)
+        public void SetMovementDirection(Vector2 movementInput)
         {
-            Quaternion targetRot = Quaternion.LookRotation(_velocity);
-            float rotateSpeed = 8f;
-            Transform parent = _entity.transform;
-            parent.rotation = Quaternion.Lerp(parent.rotation, targetRot, Time.deltaTime * rotateSpeed);
+            _movementDirection = new Vector3(movementInput.x, 0, movementInput.y).normalized;
         }
-    }
 
-    private void ApplyGravity()
-    {
-        if (isGround && _verticalVelocity < 0)
-            _verticalVelocity = -0.03f;
-        else
-            _verticalVelocity += gravity * Time.fixedDeltaTime;
+        private void FixedUpdate()
+        {
+            CalculateMovement();
+            ApplyGravity();
+            Move();
+        }
 
-        _velocity.y = _verticalVelocity;
-    }
+        private void CalculateMovement()
+        {
+            if (CanManualMovement)
+            {
+                _velocity = Quaternion.Euler(0, -45f, 0) * _movementDirection;
+                _velocity *= moveSpeed * Time.fixedDeltaTime;
+            }
+            else
+            {
+                _velocity = _autoMovement * Time.fixedDeltaTime;
+            }
 
-    private void Move()
-    {
-        controller.Move(_velocity);
-    }
+            if (_velocity.magnitude > 0)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(_velocity);
+                float rotationSpeed = 8f;
+                Transform parent = _entity.transform;
+                parent.rotation = Quaternion.Lerp(parent.rotation, targetRot, Time.fixedDeltaTime * rotationSpeed);
+            }
+        }
 
-    public void StopImmediately()
-    {
-        _movementDirection = Vector3.zero;
+        private void ApplyGravity()
+        {
+            if(IsGround && _verticalVelocity < 0)
+                _verticalVelocity = -0.03f;
+            else 
+                _verticalVelocity += gravity * Time.fixedDeltaTime;
+            
+            _velocity.y = _verticalVelocity;
+        }
+
+        private void Move()
+        {
+            controller.Move(_velocity);
+        }
+
+        public void StopImmediately()
+        {
+            _movementDirection = Vector3.zero;
+        }
+        
+        public void SetAutoMovement(Vector3 autoMovement) => _autoMovement = autoMovement;
     }
-    
-    public void SetAutoMovement(Vector3 autoMovement) => _autoMovement = autoMovement;
 }
