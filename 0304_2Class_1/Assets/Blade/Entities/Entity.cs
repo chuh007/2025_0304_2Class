@@ -7,6 +7,8 @@ namespace Blade.Entities
 {
     public abstract class Entity : MonoBehaviour
     {
+        public bool IsDead { get; set; }
+        
         protected Dictionary<Type, IEntityComponent> _components;
 
         protected virtual void Awake()

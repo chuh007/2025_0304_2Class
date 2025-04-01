@@ -6,8 +6,17 @@ namespace Blade.Players.States
 {
     public class PlayerMoveState : PlayerCanAttackState
     {
+        private EntityVFX _vfxCompo;
+        private readonly string footStepEffectName = "FootStep";
         public PlayerMoveState(Entity entity, int animationHash) : base(entity, animationHash)
         {
+            _vfxCompo = entity.GetCompo<EntityVFX>();
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            _vfxCompo.PlayVFX(footStepEffectName, Vector3.zero, Quaternion.identity);
         }
 
         public override void Update()
@@ -18,6 +27,12 @@ namespace Blade.Players.States
             _movement.SetMovementDirection(movementKey);
             if(movementKey.magnitude < _inputThreshold)
                 _player.ChangeState("IDLE");
+        }
+
+        public override void Exit()
+        {
+            _vfxCompo.StopVFX(footStepEffectName);
+            base.Exit();
         }
     }
 }
