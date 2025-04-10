@@ -47,9 +47,45 @@ namespace Blade.Test.Drags
             {
                 Vector2 delta = _currentMousePosition - _dragStartUIPosition;
                 selectionIcon.SetSize(delta);
+
+                UpdateSelection();
             }
         }
-        
+
+        private void UpdateSelection()
+        {
+            GetRaycastInfo(out RaycastHit hit);
+            Vector3 currentWorldPosition = hit.point;
+
+            Vector3 boxSize = currentWorldPosition - _dragStartWorldPosition;
+            Vector3 center = _dragStartWorldPosition + boxSize * 0.5f;
+            float yAngle = Camera.main.transform.eulerAngles.y;
+            Vector3 xAxis = Quaternion.Euler(0, yAngle, 0) * Vector3.right;
+            Vector3 zAxis = Quaternion.Euler(0, yAngle, 0) * Vector3.forward;
+
+            float xSize = Mathf.Abs(Vector3.Dot(xAxis, boxSize));
+            float zSize = Mathf.Abs(Vector3.Dot(zAxis, boxSize));
+
+            int cnt = Physics.OverlapBoxNonAlloc(center, new Vector3(xSize, 5f, zSize) * 0.5f, _results,
+                Quaternion.Euler(0, yAngle, 0), whatIsUnit);
+
+            foreach (var unit in _selectedUnits)
+            {
+                unit.SetSelected(false);
+            }
+            _selectedUnits.Clear();
+
+            for (int i = 0; i < cnt; i++)
+            {
+                Collider target = _results[i];
+                if (target.TryGetComponent(out TestUnit unit))
+                {
+                    _selectedUnits.Add(unit);
+                    unit.SetSelected(true);
+                }
+            }
+        }
+
         private void HandleMouseStatusChange(bool isPointerDown)
         {
             SetMultiSelection(isPointerDown);
@@ -89,32 +125,33 @@ namespace Blade.Test.Drags
                     _lastWorldPosition = hit.point;
                     Debug.Log($"start : {_dragStartWorldPosition}, end : {_lastWorldPosition}");
                 }
-
+        
                 Vector3 boxSize = _lastWorldPosition - _dragStartWorldPosition;
                 Vector3 center = _dragStartWorldPosition + boxSize * 0.5f;
-
+        
                 //요기 값은 실제 카메라의 회전치에 맞추어서 회전해야한다.
                 Vector3 xAxis = Quaternion.Euler(0, -45f, 0) * Vector3.right;
                 Vector3 zAxis = Quaternion.Euler(0, -45f, 0) * Vector3.forward;
-
+        
                 float xSize = Vector3.Dot(xAxis, boxSize);
                 float zSize = Vector3.Dot(zAxis, boxSize);
-
+        
                 Gizmos.color = Color.green;
                 Gizmos.DrawSphere(_dragStartWorldPosition, 0.3f);
                 Gizmos.color = Color.blue;
                 Gizmos.DrawSphere(_lastWorldPosition, 0.3f);
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawSphere(center, 0.3f);
-
-
+        
+        
                 // 새 변환 설정
                 Gizmos.matrix = Matrix4x4.TRS(center, Quaternion.Euler(0, -45f, 0), Vector3.one);
-
+        
                 Gizmos.DrawWireCube(Vector3.zero, new Vector3(xSize, 4 , zSize));
-
+        
                 Gizmos.matrix = Matrix4x4.identity;
             }
         }
+
     }
 }
