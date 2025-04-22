@@ -11,11 +11,11 @@ namespace Blade.Enemies
         [SerializeField] private float stopOffset = 0.05f;
         
         private Entity _entity;
+
+        public bool IsArrived => !agent.pathPending
+                                 && agent.remainingDistance < agent.stoppingDistance + stopOffset;
         
-        public bool IsArrived => !agent.isPathStale
-                                    && agent.remainingDistance < agent.stoppingDistance + stopOffset;
-        
-        public float RemainDistance => agent.isPathStale ? -1 : agent.remainingDistance;
+        public float RemainDistance => agent.pathPending ? -1 : agent.remainingDistance;
         
         public void Initialize(Entity entity)
         {

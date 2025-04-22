@@ -1,11 +1,13 @@
 using System;
+using Blade.Core.Dependencies;
 using Blade.Entities;
 using Blade.FSM;
 using UnityEngine;
 
 namespace Blade.Players
 {
-    public class Player : Entity
+    
+    public class Player : Entity, IDependencyProvider
     {
         [field: SerializeField] public PlayerInputSO PlayerInput { get; private set; }
 
@@ -13,6 +15,9 @@ namespace Blade.Players
         
         private EntityStateMachine _stateMachine;
 
+        [Provide]
+        public Player ProvidePlayer() => this;
+        
         #region Temp region
 
         public float rollingVelocity = 2.2f;
