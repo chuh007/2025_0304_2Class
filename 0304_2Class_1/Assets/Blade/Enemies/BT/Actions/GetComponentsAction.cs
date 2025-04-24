@@ -24,8 +24,8 @@ namespace Blade.Enemies.BT.Actions
             foreach (BlackboardVariable variable in varList)
             {
                 if(typeof(IEntityComponent).IsAssignableFrom(variable.Type) == false) continue;
+                
                 SetComponent(enemy, variable.Name, enemy.GetCompo(variable.Type));
-                SetVariable(enemy, variable.Name, variable.Type);
             }
             
             return Status.Success;
