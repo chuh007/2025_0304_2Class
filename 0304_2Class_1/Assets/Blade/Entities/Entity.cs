@@ -18,18 +18,21 @@ namespace Blade.Entities
             InitializeComponents();
         }
 
-        private void AddComponents()
+        protected virtual void AddComponents()
         {
             GetComponentsInChildren<IEntityComponent>().ToList()
                 .ForEach(component => _components.Add(component.GetType(), component));
         }
 
-        private void InitializeComponents()
+        protected virtual void InitializeComponents()
         {
             _components.Values.ToList().ForEach(component => component.Initialize(this));
         }
 
         public T GetCompo<T>() where T : IEntityComponent
             => (T)_components.GetValueOrDefault(typeof(T));
+
+        public IEntityComponent GetCompo(Type type)
+            => _components.GetValueOrDefault(type);
     }
 }
