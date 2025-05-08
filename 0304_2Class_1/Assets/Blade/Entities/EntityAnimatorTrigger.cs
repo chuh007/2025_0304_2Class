@@ -25,8 +25,8 @@ namespace Blade.Entities
         private void RollingStart() => OnRollingStatusChange?.Invoke(true);
         private void RollingEnd() => OnRollingStatusChange?.Invoke(false);
         private void PlayAttackVFX() => OnAttackVFXTrigger?.Invoke();
-        private void StartManualRotationTrigger() => OnManualRotationTrigger?.Invoke(true);
-        private void StopManualRotationTrigger() => OnManualRotationTrigger?.Invoke(false);
         
+        private void StartManualRotation() => OnManualRotationTrigger?.Invoke(true);
+        private void StopManualRotation() => OnManualRotationTrigger?.Invoke(false);
     }
 }

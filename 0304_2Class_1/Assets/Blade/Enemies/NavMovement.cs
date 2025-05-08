@@ -13,10 +13,10 @@ namespace Blade.Enemies
         [SerializeField] private float rotationSpeed = 10f;
         
         private Entity _entity;
-
-        public bool IsArrived => !agent.pathPending
-                                 && agent.remainingDistance < agent.stoppingDistance + stopOffset;
         
+        public bool IsArrived => !agent.pathPending 
+                                 && agent.remainingDistance <= agent.stoppingDistance + stopOffset;
+
         public float RemainDistance => agent.pathPending ? -1 : agent.remainingDistance;
         
         public void Initialize(Entity entity)
@@ -43,6 +43,7 @@ namespace Blade.Enemies
             Vector3 direction = target - _entity.transform.position;
             direction.y = 0;
             Quaternion lookRotation = Quaternion.LookRotation(direction.normalized);
+
             if (isSmooth)
             {
                 _entity.transform.rotation = Quaternion.Slerp(_entity.transform.rotation, lookRotation,
@@ -50,7 +51,7 @@ namespace Blade.Enemies
             }
             else
             {
-                _entity.transform.rotation = lookRotation;
+                _entity.transform.rotation = lookRotation;    
             }
         }
 

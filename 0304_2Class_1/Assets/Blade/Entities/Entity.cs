@@ -31,7 +31,6 @@ namespace Blade.Entities
 
         public T GetCompo<T>() where T : IEntityComponent
             => (T)_components.GetValueOrDefault(typeof(T));
-
         public IEntityComponent GetCompo(Type type)
             => _components.GetValueOrDefault(type);
     }

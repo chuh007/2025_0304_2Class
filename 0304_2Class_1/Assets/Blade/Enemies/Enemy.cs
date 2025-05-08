@@ -1,3 +1,4 @@
+using System;
 using Blade.Entities;
 using Unity.Behavior;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace Blade.Enemies
     public abstract class Enemy : Entity
     {
         [field: SerializeField] public EntityFinderSO PlayerFinder { get; set; }
-        public BehaviorGraphAgent BTAgent { get; private set; }
+        public BehaviorGraphAgent BtAgent { get; private set; }
 
         #region Temp
 
@@ -21,19 +22,19 @@ namespace Blade.Enemies
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, detectRange);
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position,attackRange);
+            Gizmos.DrawWireSphere(transform.position, attackRange);
         }
-        
+
         protected override void AddComponents()
         {
             base.AddComponents();
-            BTAgent = GetComponent<BehaviorGraphAgent>();
-            Debug.Assert(BTAgent != null, $"{gameObject.name} does not have behavior graph agent");
+            BtAgent = GetComponent<BehaviorGraphAgent>();
+            Debug.Assert(BtAgent != null, $"{gameObject.name} don't have BehaviorGraphAgent");
         }
 
         public BlackboardVariable<T> GetBlackboardVariable<T>(string key)
         {
-            if (BTAgent.GetVariable(key, out BlackboardVariable<T> result))
+            if (BtAgent.GetVariable(key, out BlackboardVariable<T> result))
             {
                 return result;
             }

@@ -10,7 +10,7 @@ namespace Blade.Enemies.BT.Events
     [CreateAssetMenu(menuName = "Behavior/Event Channels/StateChange")]
 #endif
     [Serializable, GeneratePropertyBag]
-    [EventChannelDescription(name: "StateChange", message: "state change to [newValue]", category: "Events", id: "d36064b56d499d34a72ac9ad8f24c28e")]
+    [EventChannelDescription(name: "StateChange", message: "state change to [newValue]", category: "Events", id: "29c7d4424b1601a0c10c7fb1ee12ca15")]
     public partial class StateChange : EventChannelBase
     {
         public delegate void StateChangeEventHandler(EnemyState newValue);

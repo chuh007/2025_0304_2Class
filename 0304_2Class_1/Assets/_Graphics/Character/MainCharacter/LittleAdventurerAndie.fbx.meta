@@ -126,7 +126,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.102564104
+      - time: 0.099999994
         functionName: PlayAttackVFX
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -169,7 +169,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.11242604
+      - time: 0.125
         functionName: PlayAttackVFX
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -212,7 +212,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.16568047
+      - time: 0.14285715
         functionName: PlayAttackVFX
         data: 
         objectReferenceParameter: {instanceID: 0}

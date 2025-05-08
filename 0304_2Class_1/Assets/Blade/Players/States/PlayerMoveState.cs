@@ -19,6 +19,12 @@ namespace Blade.Players.States
             _vfxCompo.PlayVFX(footStepEffectName, Vector3.zero, Quaternion.identity);
         }
 
+        public override void Exit()
+        {
+            _vfxCompo.StopVFX(footStepEffectName);
+            base.Exit();
+        }
+
         public override void Update()
         {
             base.Update();
@@ -27,12 +33,6 @@ namespace Blade.Players.States
             _movement.SetMovementDirection(movementKey);
             if(movementKey.magnitude < _inputThreshold)
                 _player.ChangeState("IDLE");
-        }
-
-        public override void Exit()
-        {
-            _vfxCompo.StopVFX(footStepEffectName);
-            base.Exit();
         }
     }
 }

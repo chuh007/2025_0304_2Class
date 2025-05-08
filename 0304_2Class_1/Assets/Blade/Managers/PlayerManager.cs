@@ -1,6 +1,5 @@
-using System;
 using Blade.Core.Dependencies;
-using Blade.Enemies;
+using Blade.Entities;
 using Blade.Players;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace Blade.Managers
     {
         [SerializeField, Inject] private Player player;
         [SerializeField] private EntityFinderSO playerFinder;
-
+        
         private void Awake()
         {
             playerFinder.SetTarget(player);

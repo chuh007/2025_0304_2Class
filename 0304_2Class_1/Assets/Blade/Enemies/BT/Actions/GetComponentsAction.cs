@@ -9,7 +9,7 @@ using Action = Unity.Behavior.Action;
 namespace Blade.Enemies.BT.Actions
 {
     [Serializable, GeneratePropertyBag]
-    [NodeDescription(name: "GetComponents", story: "Get components from [Self]", category: "Action", id: "c4fe4bbf1d7b036dcb28bf82f5eaf4fe")]
+    [NodeDescription(name: "GetComponents", story: "Get components from [Self]", category: "Enemy", id: "799c2e2005dcf0eff852ea9fa61ca24a")]
     public partial class GetComponentsAction : Action
     {
         [SerializeReference] public BlackboardVariable<Enemy> Self;
@@ -18,8 +18,8 @@ namespace Blade.Enemies.BT.Actions
         {
             Enemy enemy = Self.Value;
             SetVariable(enemy, "Target", enemy.PlayerFinder.Target.transform);
-            
-            List<BlackboardVariable> varList = enemy.BTAgent.BlackboardReference.Blackboard.Variables;
+
+            List<BlackboardVariable> varList = enemy.BtAgent.BlackboardReference.Blackboard.Variables;
 
             foreach (BlackboardVariable variable in varList)
             {
@@ -33,12 +33,12 @@ namespace Blade.Enemies.BT.Actions
 
         private void SetComponent(Enemy enemy, string varName, IEntityComponent component)
         {
-            if(enemy.BTAgent.GetVariable(varName, out BlackboardVariable variable))
+            if (enemy.BtAgent.GetVariable(varName, out BlackboardVariable variable))
             {
                 variable.ObjectValue = component;
             }
         }
-
+        
         private void SetVariable<T>(Enemy enemy, string varName, T component)
         {
             Debug.Assert(component != null, $"Check {varName} in {enemy.name}");

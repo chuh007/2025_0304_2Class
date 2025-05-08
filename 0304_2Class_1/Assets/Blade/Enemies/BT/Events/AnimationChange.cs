@@ -3,14 +3,13 @@ using Unity.Behavior;
 using Unity.Properties;
 using UnityEngine;
 
-
 namespace Blade.Enemies.BT.Events
 {
 #if UNITY_EDITOR
     [CreateAssetMenu(menuName = "Behavior/Event Channels/AnimationChange")]
 #endif
     [Serializable, GeneratePropertyBag]
-    [EventChannelDescription(name: "AnimationChange", message: "change to [newAnimation]", category: "Events", id: "d26a2e3f04c2d9214a3e1b6e7fc96fa5")]
+    [EventChannelDescription(name: "AnimationChange", message: "Change to [newAnimation]", category: "Events", id: "58fcc83c09c9970f878b7138cf8f13fa")]
     public partial class AnimationChange : EventChannelBase
     {
         public delegate void AnimationChangeEventHandler(string newAnimation);

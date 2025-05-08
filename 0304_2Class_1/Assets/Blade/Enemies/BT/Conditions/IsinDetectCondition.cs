@@ -1,18 +1,20 @@
-using Blade.Enemies;
 using System;
 using Unity.Behavior;
 using UnityEngine;
 
-[Serializable, Unity.Properties.GeneratePropertyBag]
-[Condition(name: "IsinDetect", story: "[Target] is in [Self] detectRange", category: "Enemy/Condition", id: "864d29c415c881a6460e5d09268b07c3")]
-public partial class IsinDetectCondition : Condition
+namespace Blade.Enemies.BT.Conditions
 {
-    [SerializeReference] public BlackboardVariable<Transform> Target;
-    [SerializeReference] public BlackboardVariable<Enemy> Self;
-
-    public override bool IsTrue()
+    [Serializable, Unity.Properties.GeneratePropertyBag]
+    [Condition(name: "IsInDetect", story: "[Target] is in [Self] detectRange", category: "Enemy/Conditions", id: "797985c50de7237260c7d02aaebddb5d")]
+    public partial class IsInDetectCondition : Condition
     {
-        float distance = Vector3.Distance(Target.Value.position, Self.Value.transform.position);
-        return distance < Self.Value.detectRange;
+        [SerializeReference] public BlackboardVariable<Transform> Target;
+        [SerializeReference] public BlackboardVariable<Enemy> Self;
+
+        public override bool IsTrue()
+        {
+            float distance = Vector3.Distance(Target.Value.position, Self.Value.transform.position);
+            return distance < Self.Value.detectRange; //탐지 거리내에 있는가?
+        }
     }
 }

@@ -43,22 +43,22 @@ namespace Blade.Players
             _entity = entity;
             _entityAnimator = entity.GetCompo<EntityAnimator>();
             _vfxCompo = entity.GetCompo<EntityVFX>();
-            _animatorTrigger = entity.GetCompo<EntityAnimatorTrigger>();
+            _animatorTrigger = entity.GetCompo<EntityAnimatorTrigger>();  
             AttackSpeed = 1f;
 
-            _animatorTrigger.OnAttackVFXTrigger += HandleAttackVFXTrigger;
+            _animatorTrigger.OnAttackVFXTrigger += HandleAttackVFXTrigger;   
         }
 
         private void OnDestroy()
         {
-            _animatorTrigger.OnAttackVFXTrigger += HandleAttackVFXTrigger;
+            _animatorTrigger.OnAttackVFXTrigger -= HandleAttackVFXTrigger; 
         }
 
-        private void HandleAttackVFXTrigger()
+        private void HandleAttackVFXTrigger()  //4
         {
-            _vfxCompo.PlayVFX($"Blade{ComboCounter + 1}", Vector3.zero, Quaternion.identity);
+            _vfxCompo.PlayVFX($"Blade{ComboCounter}", Vector3.zero, Quaternion.identity);
         }
-        
+
         public void Attack()
         {
             bool comboCounterOver = ComboCounter > 2;
@@ -74,6 +74,5 @@ namespace Blade.Players
             ComboCounter++;
             _lastAttackTime = Time.time;
         }
-
     }
 }

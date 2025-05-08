@@ -15,10 +15,10 @@ namespace Blade.Test.Drags
             Vector3 localScale = transform.localScale;
             localScale.x = size.x < 0 ? -1 : 1;
             localScale.y = size.y < 0 ? -1 : 1;
-            
+
             size.x = Mathf.Abs(size.x);
             size.y = Mathf.Abs(size.y);
-            
+
             transform.localScale = localScale;
             RectTrm.sizeDelta = size;
         }

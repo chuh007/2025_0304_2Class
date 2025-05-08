@@ -7,6 +7,7 @@ namespace Blade.Test.NavMesh
     {
         [SerializeField] private TextMeshProUGUI text;
 
-        public void SetConstrucion(bool isConstrucion) => text.text = isConstrucion? "Construcion" : "Nomal";
+        public void SetConstruction(bool isConstruction) 
+            => text.text = isConstruction ? "Construction" : "Normal";
     }
 }

@@ -29,34 +29,6 @@ namespace Blade.Core.Dependencies
             }
         }
 
-        private IEnumerable<MonoBehaviour> GetMonoBehaviours()
-        {
-            return FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
-        }
-        
-        private void RegisterProvider(IDependencyProvider provider)
-        {
-            //클래스 그 자체에 Provide 어트리뷰트가 붙어있는 경우 별도로 찾을 필요 없이 해당 클래스를 그냥 넣는다.
-            if (Attribute.IsDefined(provider.GetType(), typeof(ProvideAttribute)))
-            {
-                _registry.Add(provider.GetType(), provider);
-                return;
-            }
-            
-            //해당 클래스에 모든 매서드를 가져온다.
-            MethodInfo[] methods = provider.GetType().GetMethods(_bindingFlags);
-            foreach (var method in methods)
-            {
-                //해당 매서드에 Provide어트리뷰트가 없다면 무시해도 된다.
-                if(!Attribute.IsDefined(method, typeof(ProvideAttribute))) continue;
-                Type returnType = method.ReturnType;
-                object instance = method.Invoke(provider, null);
-                Debug.Assert(instance != null, $"Provided method {method.Name} returned null.");
-                
-                _registry.Add(returnType, instance);
-            }
-        }
-        
         private void Inject(MonoBehaviour injectableMono)
         {
             Type type = injectableMono.GetType();
@@ -80,8 +52,6 @@ namespace Blade.Core.Dependencies
                 object[] paramValues = requiredParams.Select(Resolve).ToArray();
                 method.Invoke(injectableMono, paramValues);
             }
-
-            
         }
 
         private object Resolve(Type fieldType)
@@ -96,5 +66,32 @@ namespace Blade.Core.Dependencies
             return members.Any(member => Attribute.IsDefined(member, typeof(InjectAttribute)));
         }
 
+        private void RegisterProvider(IDependencyProvider provider)
+        {
+            //클래스 그 자체에 Provide 어트리뷰트가 붙어있는 경우 별도로 찾을 필요 없이 해당 클래스를 그냥 넣는다.
+            if (Attribute.IsDefined(provider.GetType(), typeof(ProvideAttribute)))
+            {
+                _registry.Add(provider.GetType(), provider);
+                return;
+            }
+            
+            //해당 클래스에 모든 매서드를 가져온다.
+            MethodInfo[] methods = provider.GetType().GetMethods(_bindingFlags);
+            foreach (var method in methods)
+            {
+                //해당 매서드에 Provide어트리뷰트가 없다면 무시해도 된다.
+                if(!Attribute.IsDefined(method, typeof(ProvideAttribute))) continue;
+                Type returnType = method.ReturnType;
+                object instance = method.Invoke(provider, null);
+                Debug.Assert(instance != null, $"Provided method {method.Name} returned null.");
+                
+                _registry.Add(returnType, instance);
+            }
+        }
+
+        private IEnumerable<MonoBehaviour> GetMonoBehaviours()
+        {
+            return FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
+        }
     }
 }

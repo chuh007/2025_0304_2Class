@@ -7,7 +7,7 @@ using Action = Unity.Behavior.Action;
 namespace Blade.Enemies.BT.Actions
 {
     [Serializable, GeneratePropertyBag]
-    [NodeDescription(name: "RotateToTarget", story: "[Self] rotate to [Target] in [Second]", category: "Enemy/Move", id: "8c9dca49df130773ce60f3ce853300f2")]
+    [NodeDescription(name: "RotateToTarget", story: "[Self] rotate to [Target] in [Second]", category: "Enemy/Move", id: "03de06d30907ced757d628a372836d1c")]
     public partial class RotateToTargetAction : Action
     {
         [SerializeReference] public BlackboardVariable<Enemy> Self;
@@ -45,3 +45,4 @@ namespace Blade.Enemies.BT.Actions
 
     }
 }
+

@@ -52,7 +52,7 @@ namespace Blade.Players
             if (_velocity.magnitude > 0)
             {
                 Quaternion targetRot = Quaternion.LookRotation(_velocity);
-                float rotationSpeed = 8f;
+                float rotationSpeed = 20f;
                 Transform parent = _entity.transform;
                 parent.rotation = Quaternion.Lerp(parent.rotation, targetRot, Time.fixedDeltaTime * rotationSpeed);
             }

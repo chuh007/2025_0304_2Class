@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using Unity.Behavior;
 using Unity.Properties;
 using UnityEngine;
@@ -8,11 +7,12 @@ using Action = Unity.Behavior.Action;
 namespace Blade.Enemies.BT.Actions
 {
     [Serializable, GeneratePropertyBag]
-    [NodeDescription(name: "Patrol", story: "[Self] patrol with [points]", category: "Action", id: "1cdb7256afa8e09bdeb2857838212b7d")]
+    [NodeDescription(name: "Patrol", story: "[Self] Patrol with [points]", category: "Action/Enemy", id: "30660e141d57e35941c80571aa989a2b")]
     public partial class PatrolAction : Action
     {
-    [SerializeReference] public BlackboardVariable<Enemy> Self;
-    [SerializeReference] public BlackboardVariable<WayPoints> Points;
+        [SerializeReference] public BlackboardVariable<Enemy> Self;
+        [SerializeReference] public BlackboardVariable<WayPoints> Points;
+
         private int _currentPointIdx;
         private NavMovement _navMovement;
         
@@ -25,8 +25,8 @@ namespace Blade.Enemies.BT.Actions
 
         private void Initialize()
         {
-            if(_navMovement == null)
-                _navMovement = Self.Value.GetCompo<NavMovement>();
+            if (_navMovement == null)
+                _navMovement =  Self.Value.GetCompo<NavMovement>();
         }
 
         protected override Status OnUpdate()

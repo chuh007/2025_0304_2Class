@@ -1,26 +1,28 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.VFX;
 
 namespace Blade.Effects
 {
     public class PlayGraphVFX : MonoBehaviour, IPlayableVFX
     {
-        [field : SerializeField] public string VFXName { get; set; }
+        [field: SerializeField] public string VFXName { get; private set; }
         [SerializeField] private bool isOnPosition;
-        [FormerlySerializedAs("effect")] [SerializeField] private VisualEffect[] effects;
+        [SerializeField] private VisualEffect[] effects;
+        
         public void PlayVFX(Vector3 position, Quaternion rotation)
         {
-            if(isOnPosition)
+            if(isOnPosition == false)
                 transform.SetPositionAndRotation(position, rotation);
-            foreach (var effect in effects)
+            
+            foreach(VisualEffect effect in effects)
                 effect.Play();
+                
         }
 
         public void StopVFX()
         {
-            foreach (var effect in effects)
+            foreach(VisualEffect effect in effects)
                 effect.Stop();
         }
 

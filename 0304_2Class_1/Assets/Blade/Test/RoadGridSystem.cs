@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Blade.Players;
@@ -6,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Blade.Test
@@ -16,13 +14,14 @@ namespace Blade.Test
         [SerializeField] private PlayerInputSO playerInput;
         [SerializeField] private Grid mapGrid;
         [SerializeField] private GameObject roadBlockPrefab;
+
         public UnityEvent<bool> ConstructionModeChange;
         public UnityEvent UpdateNavigation;
         
         private bool _constructionMode = false;
 
         private HashSet<Vector3Int> _roadPoints;
-
+        
         [SerializeField] private bool canCombineMesh;
         private MeshFilter _parentMeshFilter;
         
@@ -39,7 +38,7 @@ namespace Blade.Test
         private void Awake()
         {
             _parentMeshFilter = GetComponent<MeshFilter>();
-            _parentMeshFilter.mesh = new Mesh(); // 빈 메시 하나를 추가한다.
+            _parentMeshFilter.mesh = new Mesh(); //비어있는 메시를 하나 추가한다.
             
             _roadPoints = new HashSet<Vector3Int>();
             playerInput.OnAttackPressed += HandleClick;
@@ -80,15 +79,17 @@ namespace Blade.Test
             int vertexCnt = 0;
             for (int i = 0; i < meshFilters.Length; i++)
             {
-                if(meshFilters[i].sharedMesh == null) continue;
+                if (meshFilters[i].sharedMesh == null) continue;
                 
                 combine[i].mesh = meshFilters[i].sharedMesh;
                 combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
-
+                
+                meshFilters[i].gameObject.SetActive(false);
+                
                 vertexCnt += meshFilters[i].sharedMesh.vertexCount;
             }
-            
-            _parentMeshFilter.mesh = new Mesh(); // 새로운 메시를 만들어주고
+
+            _parentMeshFilter.mesh = new Mesh(); //새로운 메시를 만들어주고
             if (vertexCnt > 65535)
                 _parentMeshFilter.mesh.indexFormat = IndexFormat.UInt32;
             
@@ -102,14 +103,17 @@ namespace Blade.Test
                 ConstructionMode = !ConstructionMode;
         }
 
-        [SerializeField] private GameObject agent;
-        
+        [SerializeField] private GameObject agentPrefab;
+
         public void DeployAgent()
         {
-            Vector3Int cellPoint = _roadPoints.Skip(Random.Range(0,_roadPoints.Count)).First();
+            Vector3Int cellPoint = _roadPoints.Skip(Random.Range(0, _roadPoints.Count)).First();
             Vector3 position = mapGrid.GetCellCenterWorld(cellPoint);
-            Instantiate(agent, position, Quaternion.identity);
+            Instantiate(agentPrefab, position, Quaternion.identity);
         }
+
+        
+        
         
     }
 }
