@@ -1,7 +1,7 @@
 using Assets.Bocch16Lib.ObjectPool.RunTime;
 using UnityEngine;
 
-namespace Bocch16Lib.ObjectPool.RunTime
+namespace Chuh007Lib.ObjectPool.RunTime
 {
     public interface IPoolable
     {

@@ -1,10 +1,10 @@
 using Assets.Bocch16Lib.ObjectPool.RunTime;
-using Bocch16Lib.ObjectPool.RunTime;
+using Chuh007Lib.ObjectPool.RunTime;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bocch16Lib.ObjectPool.RunTime
+namespace Chuh007Lib.ObjectPool.RunTime
 {
     [CreateAssetMenu(fileName = "PoolManager", menuName = "SO/Pool/Manager")]
     public class PoolManagerSO : ScriptableObject

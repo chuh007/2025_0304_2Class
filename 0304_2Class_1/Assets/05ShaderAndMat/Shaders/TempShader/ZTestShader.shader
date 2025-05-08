@@ -27,14 +27,14 @@ Shader "Unlit/ZTestShader"
 
             struct Attributes
             {
-                float4 positionOS   : POSITION;  //À§Ä¡(¿ÀºêÁ§Æ®½ºÆäÀÌ½º)
+                float4 positionOS   : POSITION;  //ìœ„ì¹˜(ì˜¤ë¸Œì íŠ¸ìŠ¤í˜ì´ìŠ¤)
                 float2 texcoord     : TEXCOORD0;
             };
 
             struct Varyings
             {
-                float4 positionHCS  : SV_POSITION;  //È£¸ğÁö´Ï¾î½º Å¬¸³½ºÆäÀÌ½º
-                float4 positionOS   : TEXCOORD1;  //À§Ä¡
+                float4 positionHCS  : SV_POSITION;  //í˜¸ëª¨ì§€ë‹ˆì–´ìŠ¤ í´ë¦½ìŠ¤í˜ì´ìŠ¤
+                float4 positionOS   : TEXCOORD1;  //ìœ„ì¹˜
                 float2 uv           : TEXCOORD0;
             };
 
