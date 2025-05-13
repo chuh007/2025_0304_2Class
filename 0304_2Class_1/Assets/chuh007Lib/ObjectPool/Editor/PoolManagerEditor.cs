@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Chuh007Lib.ObjectPool.Editor;
 using Chuh007Lib.ObjectPool.RunTime;
-using GondrLib.ObjectPool.Editor;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,6 +19,9 @@ public class PoolManagerEditor : EditorWindow
     private ScrollView _itemView;
     private List<PoolItemUI> _itemList;
     private PoolItemUI _selectedItem;
+    
+    private UnityEditor.Editor _cachedEditor;
+    private VisualElement _inspectorView;
 
     [MenuItem("Tools/PoolManager")]
     public static void ShowWindow()
@@ -43,8 +46,9 @@ public class PoolManagerEditor : EditorWindow
         _createBtn = root.Q<Button>("CreateBtn");
         _createBtn.clicked += HandleCreateBtn;
         _itemView = root.Q<ScrollView>("ItemView");
-        
         _itemList = new List<PoolItemUI>();
+        
+        _inspectorView = root.Q<VisualElement>("InspectorView");
 
         GeneratePoolItems();
     }
@@ -71,13 +75,13 @@ public class PoolManagerEditor : EditorWindow
         AssetDatabase.SaveAssets();
         
         GeneratePoolItems();
-
     }
 
     private void GeneratePoolItems()
     {
         _itemView.Clear();
         _itemList.Clear();
+        _inspectorView.Clear();
 
         foreach (var item in poolManager.itemList)
         {
@@ -87,16 +91,16 @@ public class PoolManagerEditor : EditorWindow
             _itemList.Add(itemUI);
 
             itemUI.Name = item.poolingName;
-
-            if (_selectedItem != null && _selectedItem.poolItem == item)
+            
+            if(_selectedItem != null && _selectedItem.poolItem == item)
             {
                 HandleItemSelect(itemUI);
+              
             }
 
             itemUI.OnSelectEvent += HandleItemSelect;
             itemUI.OnDeleteEvent += HandleItemDelete;
         }
-
     }
 
     private void HandleItemDelete(PoolItemUI target)
@@ -109,13 +113,14 @@ public class PoolManagerEditor : EditorWindow
         }
 
         poolManager.itemList.Remove(target.poolItem);
-        AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(target.poolItem));
-        EditorUtility.SetDirty(poolManager);
-        AssetDatabase.SaveAssets();
+        AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(target.poolItem)); //실질적인 삭제
+        EditorUtility.SetDirty(poolManager); //더티 플래그 설정
+        AssetDatabase.SaveAssets(); //에셋 저장
         
         if(_selectedItem == target)
         {
             _selectedItem = null;
+            //여기서 나중에 인스펙터 클리어까지 하게 된다.
         }
         
         GeneratePoolItems();
@@ -123,10 +128,22 @@ public class PoolManagerEditor : EditorWindow
 
     private void HandleItemSelect(PoolItemUI target)
     {
+        _inspectorView.Clear();
         if(_selectedItem != null)
             _selectedItem.IsActive = false;
         _selectedItem = target;
         _selectedItem.IsActive = true;
+        
+        UnityEditor.Editor.CreateCachedEditor(_selectedItem.poolItem, null, ref _cachedEditor);
+        VisualElement inspectorContent = _cachedEditor.CreateInspectorGUI();
+        
+        SerializedObject serializedObject = new SerializedObject(_selectedItem.poolItem);
+        inspectorContent.Bind(serializedObject);
+        inspectorContent.TrackSerializedObjectValue(serializedObject, so =>
+        {
+            _selectedItem.Name = so.FindProperty("poolingName").stringValue;
+        });
+        _inspectorView.Add(inspectorContent);
     }
 
     private void InitializeWindow()

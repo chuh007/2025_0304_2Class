@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GondrLib.ObjectPool.Editor
+namespace Chuh007Lib.ObjectPool.Editor
 {
     [CustomEditor(typeof(PoolItemSO))]
     public class PoolItemSOEditor : UnityEditor.Editor

@@ -1,4 +1,4 @@
-namespace Blade.Core.Dependencies
+namespace Chuh007Lib.Dependencies
 {
     public interface IDependencyProvider
     {

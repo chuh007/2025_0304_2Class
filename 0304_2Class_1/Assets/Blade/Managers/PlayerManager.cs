@@ -1,6 +1,6 @@
-using Blade.Core.Dependencies;
 using Blade.Entities;
 using Blade.Players;
+using Chuh007Lib.Dependencies;
 using UnityEngine;
 
 namespace Blade.Managers

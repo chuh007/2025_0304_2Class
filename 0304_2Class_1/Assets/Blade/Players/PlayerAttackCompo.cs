@@ -9,6 +9,9 @@ namespace Blade.Players
     {
         [SerializeField] private AttackDataSO[] attackDataList;   //1
         [SerializeField] private float comboWindow = 0.7f;
+
+        [SerializeField] private DamageCaster damageCaster;
+        
         private Entity _entity;
         private EntityAnimator _entityAnimator;
         private EntityVFX _vfxCompo;
@@ -46,12 +49,22 @@ namespace Blade.Players
             _animatorTrigger = entity.GetCompo<EntityAnimatorTrigger>();  
             AttackSpeed = 1f;
 
-            _animatorTrigger.OnAttackVFXTrigger += HandleAttackVFXTrigger;   
+            damageCaster.InitCaster(_entity); //오너 설정해주고 
+            
+            _animatorTrigger.OnAttackVFXTrigger += HandleAttackVFXTrigger;
+            _animatorTrigger.OnDamageCastTrigger += HandleDamageCastTrigger;
         }
 
         private void OnDestroy()
         {
             _animatorTrigger.OnAttackVFXTrigger -= HandleAttackVFXTrigger; 
+            _animatorTrigger.OnDamageCastTrigger -= HandleDamageCastTrigger;
+        }
+
+        private void HandleDamageCastTrigger()
+        {
+            Vector3 position = damageCaster.transform.position;
+            damageCaster.CastDamage(position, _entity.transform.forward, GetCurrentAttackData());
         }
 
         private void HandleAttackVFXTrigger()  //4

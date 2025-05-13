@@ -2,7 +2,7 @@ using System;
 using Chuh007Lib.ObjectPool.RunTime;
 using UnityEngine.UIElements;
 
-namespace GondrLib.ObjectPool.Editor
+namespace Chuh007Lib.ObjectPool.Editor
 {
     public class PoolItemUI
     {

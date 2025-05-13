@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace Blade.Core.Dependencies
+namespace Chuh007Lib.Dependencies
 {
     [DefaultExecutionOrder(-10)] //가장 빨리 실행되게
     public class Injector : MonoBehaviour

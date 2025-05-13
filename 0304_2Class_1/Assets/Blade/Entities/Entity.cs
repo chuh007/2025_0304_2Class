@@ -2,12 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Blade.Entities
 {
     public abstract class Entity : MonoBehaviour
     {
         public bool IsDead { get; set; }
+
+        public UnityEvent OnHitEvent;
+        public UnityEvent OnDeadEvent;
         
         protected Dictionary<Type, IEntityComponent> _components;
 

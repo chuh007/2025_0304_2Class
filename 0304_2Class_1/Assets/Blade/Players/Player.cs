@@ -1,7 +1,7 @@
 using System;
-using Blade.Core.Dependencies;
 using Blade.Entities;
 using Blade.FSM;
+using Chuh007Lib.Dependencies;
 using UnityEngine;
 
 namespace Blade.Players
