@@ -1,11 +1,13 @@
 using System;
+using Blade.Combat;
 using Blade.Entities;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Blade.Enemies
 {
-    public class NavMovement : MonoBehaviour, IEntityComponent
+    public class NavMovement : MonoBehaviour, IEntityComponent, IKnockBackable
     {
         [SerializeField] private NavMeshAgent agent;
         [SerializeField] private float moveSpeed = 4f;
@@ -23,6 +25,11 @@ namespace Blade.Enemies
         {
             _entity = entity;
             agent.speed = moveSpeed;
+        }
+
+        private void OnDestroy()
+        {
+            _entity.transform.DOKill();
         }
 
         private void Update()
@@ -59,5 +66,39 @@ namespace Blade.Enemies
         public void SetVelocity(Vector3 velocity) => agent.velocity = velocity;
         public void SetSpeed(float speed) => agent.speed = speed;
         public void SetDestination(Vector3 destination) => agent.SetDestination(destination);
+        public void KnockBack(Vector3 force, float time)
+        {
+            SetStop(true);
+            Vector3 destination = GetKnockBackEndPosition(force);
+            Vector3 delta = destination - _entity.transform.position;
+            float knockBackDuration = delta.magnitude * time / force.magnitude;
+            // force : time = delta : ?
+            
+            _entity.transform.DOMove(destination, knockBackDuration)
+                .SetEase(Ease.OutCirc)
+                .OnComplete(() =>
+                {
+                    agent.Warp(transform.position); // 에이전트를 내 현제 transform 기준으로 이동시킨다.
+                    SetStop(false); // 네비게이션을 가동하도록 한다.
+                });
+            
+        }
+
+        /// <summary>
+        /// force를 주면 어디까지 밀려날 수 있는지를 계산해주는 메서드
+        /// </summary>
+        /// <param name="force"></param>
+        /// <returns></returns>
+        private Vector3 GetKnockBackEndPosition(Vector3 force)
+        {
+            Vector3 startPosition = _entity.transform.position + new Vector3(0, 0, 0.5f);
+            if (Physics.Raycast(startPosition, force.normalized, out RaycastHit hit, force.magnitude))
+            {
+                Vector3 hitPoint = hit.point;
+                hitPoint.y = _entity.transform.position.y;
+                return hitPoint;
+            }
+            return _entity.transform.position + force;
+        }
     }
 }

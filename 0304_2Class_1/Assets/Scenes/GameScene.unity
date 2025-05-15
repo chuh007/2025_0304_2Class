@@ -167,7 +167,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   castRadius: 1.1
-  castInterpolation: 0.5
+  castInterpolation: 0.55
   castRange: 1.722
 --- !u!1 &299977959
 GameObject:
@@ -887,12 +887,51 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 602403932}
+        m_TargetAssemblyTypeName: Blade.Feedbacks.HitImpactFeedback, Assembly-CSharp
+        m_MethodName: CreateFeedback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 602403934}
+        m_TargetAssemblyTypeName: Blade.Feedbacks.BlinkFeedback, Assembly-CSharp
+        m_MethodName: CreateFeedback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDeadEvent:
     m_PersistentCalls:
       m_Calls: []
   <PlayerFinder>k__BackingField: {fileID: 11400000, guid: 1352cc41314ae7940af8ee9558a37145, type: 2}
   detectRange: 8
   attackRange: 2
+  OnKnockBack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1991257024}
+        m_TargetAssemblyTypeName: Blade.Enemies.NavMovement, Assembly-CSharp
+        m_MethodName: KnockBack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!195 &459006729
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1086,6 +1125,8 @@ GameObject:
   m_Component:
   - component: {fileID: 602403931}
   - component: {fileID: 602403932}
+  - component: {fileID: 602403933}
+  - component: {fileID: 602403934}
   m_Layer: 7
   m_Name: HitFeedback
   m_TagString: Untagged
@@ -1123,6 +1164,36 @@ MonoBehaviour:
   hitImpact: {fileID: 11400000, guid: 55394f925d52eb84aa9fe998eb6558af, type: 2}
   playDuration: 0.5
   actionData: {fileID: 2093162080}
+--- !u!114 &602403933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602403930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67bbd92fdbbd45fb96886babdebaf442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashEffect: {fileID: 11400000, guid: 5e946872e86a6a541b197528761b1f8d, type: 2}
+  playDuration: 0.5
+  actionData: {fileID: 2093162080}
+--- !u!114 &602403934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602403930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63c88b4611542518cdcb765ccec2e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 2874063957316180324}
+  blinkDuration: 0.15
+  blinkIntensity: 0.2
 --- !u!1 &742237604
 GameObject:
   m_ObjectHideFlags: 0

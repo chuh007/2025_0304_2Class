@@ -12,7 +12,10 @@ namespace Blade.Combat
         public float damageIncrease = 0; //추가 데미지 - 합연산
 
         public bool isPowerAttack = false;
-
+        
+        public float knockForce;
+        public float knockBackDuration;
+        
         private void OnEnable()
         {
             attackName = this.name; //파일이름으로 AttackName 을 지정한다.

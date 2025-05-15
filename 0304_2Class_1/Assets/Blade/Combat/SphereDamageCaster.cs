@@ -18,17 +18,22 @@ namespace Blade.Combat
                 out RaycastHit hit,
                 castRange,
                 whatIsTarget);
+            if (isHit)
+            {
+                if (hit.collider.TryGetComponent(out IDamageable idamageable))
+                {
+                    float damage = 5f; //차후 스탯 시스템과 연동한다.
+                    idamageable.ApplyDamage(damage, hit.point, hit.normal, attackData, _owner);
+                    Debug.Log($"<color=red>Hit!</color> {hit.collider.name} : {damage}");
+                }
 
-            if (isHit && hit.collider.TryGetComponent(out IDamageable idamageable))
-            {
-                float damage = 5f; //차후 스탯 시스템과 연동한다.
-                idamageable.ApplyDamage(damage, hit.point, hit.normal, attackData, _owner);
-                Debug.Log($"<color=red>Hit!</color> {hit.collider.name} : {damage}");
+                if (hit.collider.TryGetComponent(out IKnockBackable knockBackable))
+                {
+                    Vector3 force = transform.forward * attackData.knockForce;
+                    knockBackable.KnockBack(force, attackData.knockBackDuration);
+                }
             }
-            else
-            {
-                Debug.Log("<color=green>Miss!</color>");
-            }
+
         }
         
 #if UNITY_EDITOR

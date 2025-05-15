@@ -19,22 +19,18 @@ namespace Blade.Feedbacks
         
         public override async void CreateFeedback()
         {
-            _effect = _poolManager.Pop<PoolingEffect>(hitImpact);
+            PoolingEffect effect = _poolManager.Pop<PoolingEffect>(hitImpact);
             Quaternion rotation = Quaternion.LookRotation(actionData.HitNormal * -1);
             
-            _effect.PlayVFX(actionData.HitPoint, rotation);
+            effect.PlayVFX(actionData.HitPoint, rotation);
             
             await Awaitable.WaitForSecondsAsync(playDuration);
-            StopFeedback();
-            // DOVirtual.DelayedCall(playDuration, StopFeedback);
+            _poolManager.Push(effect);
         }
 
         public override void StopFeedback()
         {
-            if (_effect != null)
-            {
-                _poolManager.Push(_effect);
-            }
+            
         }
     }
 }

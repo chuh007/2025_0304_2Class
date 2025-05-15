@@ -17,3 +17,5 @@ MonoBehaviour:
   damageMultiplier: 1.2
   damageIncrease: 0
   isPowerAttack: 1
+  knockForce: 2
+  knockBackDuration: 0.8
