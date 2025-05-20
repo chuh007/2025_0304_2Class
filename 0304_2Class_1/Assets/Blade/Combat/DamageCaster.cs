@@ -14,6 +14,6 @@ namespace Blade.Combat
             _owner = owner;
         }
 
-        public abstract void CastDamage(Vector3 position, Vector3 direction, AttackDataSO attackData);
+        public abstract void CastDamage(DamageData damageData, Vector3 position, Vector3 direction, AttackDataSO attackData);
     }
 }

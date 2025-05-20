@@ -5,7 +5,7 @@ namespace Blade.Combat
 {
     public interface IDamageable
     {
-        public void ApplyDamage(float damage, Vector3 hitPoint, Vector3 hitNomal, AttackDataSO attackData,
+        public void ApplyDamage(DamageData damageData, Vector3 hitPoint, Vector3 hitNomal, AttackDataSO attackData,
             Entity dealer);
     }
 }

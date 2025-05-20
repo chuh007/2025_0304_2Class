@@ -1,15 +1,18 @@
 using System;
 using Blade.Entities;
+using Chuh007Lib.StatSystem;
 using UnityEngine;
 
 namespace Blade.Players
 {
-    public class CharacterMovement : MonoBehaviour, IEntityComponent
+    public class CharacterMovement : MonoBehaviour, IEntityComponent, IAfterInitialize
     {
-        [SerializeField] private float moveSpeed = 8f;
+        [SerializeField] private StatSO moveSpeedStat;
         [SerializeField] private float gravity = -9.8f;
         [SerializeField] private CharacterController controller;
         // [SerializeField] private Transform parent;
+        
+        private float _moveSpeed = 8f;
         public bool IsGround => controller.isGrounded;
         public bool CanManualMovement { get; set; } = true;
         private Vector3 _autoMovement;
@@ -20,11 +23,28 @@ namespace Blade.Players
         private Vector3 _movementDirection;
 
         private Entity _entity;
+        private EntityStat _statCompo;
         public void Initialize(Entity entity)
         {
             _entity = entity;
+            _statCompo = entity.GetCompo<EntityStat>();
         }
         
+        public void AfterInitialize()
+        {
+            _moveSpeed = _statCompo.SubscribeStat(moveSpeedStat, HandleMoveSpeedChange, 1f);
+        }
+
+        private void OnDestroy()
+        {
+            _statCompo.UnSubscribeStat(moveSpeedStat, HandleMoveSpeedChange);
+        }
+
+        private void HandleMoveSpeedChange(StatSO stat, float currentvalue, float prevvalue)
+        {
+            _moveSpeed = currentvalue;
+        }
+
         public void SetMovementDirection(Vector2 movementInput)
         {
             _movementDirection = new Vector3(movementInput.x, 0, movementInput.y).normalized;
@@ -42,7 +62,7 @@ namespace Blade.Players
             if (CanManualMovement)
             {
                 _velocity = Quaternion.Euler(0, -45f, 0) * _movementDirection;
-                _velocity *= moveSpeed * Time.fixedDeltaTime;
+                _velocity *= _moveSpeed * Time.fixedDeltaTime;
             }
             else
             {
@@ -79,5 +99,6 @@ namespace Blade.Players
         }
         
         public void SetAutoMovement(Vector3 autoMovement) => _autoMovement = autoMovement;
+        
     }
 }

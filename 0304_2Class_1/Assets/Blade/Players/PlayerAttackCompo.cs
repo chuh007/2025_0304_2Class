@@ -1,14 +1,17 @@
 using System;
 using Blade.Combat;
 using Blade.Entities;
+using Chuh007Lib.StatSystem;
 using UnityEngine;
 
 namespace Blade.Players
 {
-    public class PlayerAttackCompo : MonoBehaviour, IEntityComponent
+    public class PlayerAttackCompo : MonoBehaviour, IEntityComponent, IAfterInitialize
     {
         [SerializeField] private AttackDataSO[] attackDataList;   //1
         [SerializeField] private float comboWindow = 0.7f;
+        [SerializeField] private StatSO attackSpeedStat;
+        [SerializeField] private StatSO meleeDamageStat;
 
         [SerializeField] private DamageCaster damageCaster;
         
@@ -16,6 +19,8 @@ namespace Blade.Players
         private EntityAnimator _entityAnimator;
         private EntityVFX _vfxCompo;
         private EntityAnimatorTrigger _animatorTrigger;
+        private EntityStat _statCompo;
+        private DamageCalcCompo _damageCompo;
         
         private readonly int _attackSpeedHash = Animator.StringToHash("ATTACK_SPEED");
         private readonly int _comboCounterHash = Animator.StringToHash("COMBO_COUNTER");
@@ -46,25 +51,38 @@ namespace Blade.Players
             _entity = entity;
             _entityAnimator = entity.GetCompo<EntityAnimator>();
             _vfxCompo = entity.GetCompo<EntityVFX>();
-            _animatorTrigger = entity.GetCompo<EntityAnimatorTrigger>();  
-            AttackSpeed = 1f;
+            _animatorTrigger = entity.GetCompo<EntityAnimatorTrigger>();
+            _statCompo = entity.GetCompo<EntityStat>();
+            _damageCompo = entity.GetCompo<DamageCalcCompo>();
 
             damageCaster.InitCaster(_entity); //오너 설정해주고 
-            
+        }
+        
+        public void AfterInitialize()
+        {
+            AttackSpeed = _statCompo.SubscribeStat(attackSpeedStat, HandleAttackSpeedChange, 1f);
             _animatorTrigger.OnAttackVFXTrigger += HandleAttackVFXTrigger;
             _animatorTrigger.OnDamageCastTrigger += HandleDamageCastTrigger;
         }
 
         private void OnDestroy()
         {
+            _statCompo.UnSubscribeStat(attackSpeedStat, HandleAttackSpeedChange);
             _animatorTrigger.OnAttackVFXTrigger -= HandleAttackVFXTrigger; 
             _animatorTrigger.OnDamageCastTrigger -= HandleDamageCastTrigger;
         }
 
+        private void HandleAttackSpeedChange(StatSO stat, float currentvalue, float prevvalue)
+        {
+            AttackSpeed = currentvalue;
+        }
+
         private void HandleDamageCastTrigger()
         {
+            AttackDataSO attackData = GetCurrentAttackData();
+            DamageData data = _damageCompo.CalculateDamage(meleeDamageStat, attackData);
             Vector3 position = damageCaster.transform.position;
-            damageCaster.CastDamage(position, _entity.transform.forward, GetCurrentAttackData());
+            damageCaster.CastDamage(data, position, _entity.transform.forward, attackData);
         }
 
         private void HandleAttackVFXTrigger()  //4
@@ -87,5 +105,7 @@ namespace Blade.Players
             ComboCounter++;
             _lastAttackTime = Time.time;
         }
+
+        
     }
 }

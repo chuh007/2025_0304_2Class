@@ -1,20 +1,22 @@
 using System;
 using Blade.Combat;
 using Blade.Entities;
+using Chuh007Lib.StatSystem;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Blade.Enemies
 {
-    public class NavMovement : MonoBehaviour, IEntityComponent, IKnockBackable
+    public class NavMovement : MonoBehaviour, IEntityComponent, IKnockBackable, IAfterInitialize
     {
+        [SerializeField] private StatSO moveSpeedStat;
         [SerializeField] private NavMeshAgent agent;
-        [SerializeField] private float moveSpeed = 4f;
         [SerializeField] private float stopOffset = 0.05f;
         [SerializeField] private float rotationSpeed = 10f;
         
         private Entity _entity;
+        private EntityStat _statCompo;
         
         public bool IsArrived => !agent.pathPending 
                                  && agent.remainingDistance <= agent.stoppingDistance + stopOffset;
@@ -24,11 +26,23 @@ namespace Blade.Enemies
         public void Initialize(Entity entity)
         {
             _entity = entity;
-            agent.speed = moveSpeed;
+            _statCompo = entity.GetCompo<EntityStat>();
+        }
+
+        
+        public void AfterInitialize()
+        {
+            agent.speed = _statCompo.SubscribeStat(moveSpeedStat, HandleMoveSpeedChange, 1f);
+        }
+
+        private void HandleMoveSpeedChange(StatSO stat, float currentvalue, float prevvalue)
+        {
+            agent.speed = currentvalue;
         }
 
         private void OnDestroy()
         {
+            _statCompo.UnSubscribeStat(moveSpeedStat, HandleMoveSpeedChange);
             _entity.transform.DOKill();
         }
 
@@ -100,5 +114,6 @@ namespace Blade.Enemies
             }
             return _entity.transform.position + force;
         }
+
     }
 }

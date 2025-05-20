@@ -9,7 +9,6 @@ namespace Blade.Entities
     public abstract class Entity : MonoBehaviour
     {
         public bool IsDead { get; set; }
-
         public UnityEvent OnHitEvent;
         public UnityEvent OnDeadEvent;
         
@@ -20,7 +19,9 @@ namespace Blade.Entities
             _components = new Dictionary<Type, IEntityComponent>();
             AddComponents();
             InitializeComponents();
+            AfterInitialize();
         }
+
 
         protected virtual void AddComponents()
         {
@@ -31,6 +32,12 @@ namespace Blade.Entities
         protected virtual void InitializeComponents()
         {
             _components.Values.ToList().ForEach(component => component.Initialize(this));
+        }
+        
+        protected virtual void AfterInitialize()
+        {
+            _components.Values.OfType<IAfterInitialize>()
+                .ToList().ForEach(compo => compo.AfterInitialize());
         }
 
         public T GetCompo<T>() where T : IEntityComponent
