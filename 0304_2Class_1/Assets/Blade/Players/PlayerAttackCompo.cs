@@ -2,17 +2,22 @@ using System;
 using Blade.Combat;
 using Blade.Entities;
 using Chuh007Lib.StatSystem;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Blade.Players
 {
     public class PlayerAttackCompo : MonoBehaviour, IEntityComponent, IAfterInitialize
     {
+        [Header("Impulse Settings")]
+        [SerializeField] private CinemachineImpulseSource impulseSource;
+        [SerializeField] private bool canImpulseOnlyHit = true;
+        
         [SerializeField] private AttackDataSO[] attackDataList;   //1
         [SerializeField] private float comboWindow = 0.7f;
         [SerializeField] private StatSO attackSpeedStat;
         [SerializeField] private StatSO meleeDamageStat;
-
+        
         [SerializeField] private DamageCaster damageCaster;
         
         private Entity _entity;
@@ -82,7 +87,14 @@ namespace Blade.Players
             AttackDataSO attackData = GetCurrentAttackData();
             DamageData data = _damageCompo.CalculateDamage(meleeDamageStat, attackData);
             Vector3 position = damageCaster.transform.position;
-            damageCaster.CastDamage(data, position, _entity.transform.forward, attackData);
+            bool isSuccess = damageCaster.CastDamage(data, position, _entity.transform.forward, attackData);
+            
+            if(attackData.isPowerAttack == false) return;
+            
+            if (canImpulseOnlyHit == false || isSuccess)
+            {
+                impulseSource.GenerateImpulse(attackData.impulseForce);
+            }
         }
 
         private void HandleAttackVFXTrigger()  //4

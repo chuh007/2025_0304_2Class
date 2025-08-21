@@ -16,6 +16,7 @@ namespace Blade.Enemies.BT.Actions
         protected override Status OnStart()
         {
             Movement.Value.SetStop(NewValue.Value);
+            Movement.Value.SetDestination(Movement.Value.transform.position);
             return Status.Success;
         }
     }

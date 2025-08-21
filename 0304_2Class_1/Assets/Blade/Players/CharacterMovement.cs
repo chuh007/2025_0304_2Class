@@ -1,11 +1,13 @@
 using System;
+using Blade.Combat;
 using Blade.Entities;
 using Chuh007Lib.StatSystem;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Blade.Players
 {
-    public class CharacterMovement : MonoBehaviour, IEntityComponent, IAfterInitialize
+    public class CharacterMovement : MonoBehaviour, IEntityComponent, IAfterInitialize, IKnockBackable
     {
         [SerializeField] private StatSO moveSpeedStat;
         [SerializeField] private float gravity = -9.8f;
@@ -69,7 +71,7 @@ namespace Blade.Players
                 _velocity = _autoMovement * Time.fixedDeltaTime;
             }
 
-            if (_velocity.magnitude > 0)
+            if (_velocity.magnitude > 0 && CanManualMovement)
             {
                 Quaternion targetRot = Quaternion.LookRotation(_velocity);
                 float rotationSpeed = 20f;
@@ -99,6 +101,13 @@ namespace Blade.Players
         }
         
         public void SetAutoMovement(Vector3 autoMovement) => _autoMovement = autoMovement;
-        
+
+        public void KnockBack(Vector3 force, float time)
+        {
+            _autoMovement = force;
+            _autoMovement.y = 0;
+
+            DOVirtual.DelayedCall(time, () => _autoMovement = Vector3.zero);
+        }
     }
 }

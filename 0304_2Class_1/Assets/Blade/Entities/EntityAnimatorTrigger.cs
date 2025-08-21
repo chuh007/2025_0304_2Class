@@ -10,6 +10,7 @@ namespace Blade.Entities
         public Action OnAttackVFXTrigger;
         public Action<bool> OnManualRotationTrigger;
         public Action OnDamageCastTrigger;
+        public Action<bool> OnDamageToggleTrigger;
         
         private Entity _entity;
 
@@ -30,5 +31,7 @@ namespace Blade.Entities
         private void StartManualRotation() => OnManualRotationTrigger?.Invoke(true);
         private void StopManualRotation() => OnManualRotationTrigger?.Invoke(false);
         private void DamageCast() => OnDamageCastTrigger?.Invoke();
+        private void StartDamageCast() => OnDamageToggleTrigger?.Invoke(true);
+        private void StopDamageCast() => OnDamageToggleTrigger?.Invoke(false);
     }
 }

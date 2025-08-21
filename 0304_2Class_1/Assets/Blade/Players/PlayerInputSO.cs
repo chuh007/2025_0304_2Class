@@ -11,6 +11,7 @@ namespace Blade.Players
         // public event Action<Vector2> OnMovementChange;
         public event Action OnAttackPressed;
         public event Action OnRollingPressed;
+        public event Action<bool> OnSkillPressed;
         
         public Vector2 MovementKey { get; private set; }
         
@@ -53,6 +54,14 @@ namespace Blade.Players
         public void OnPointer(InputAction.CallbackContext context)
         {
             _screenPosition = context.ReadValue<Vector2>();
+        }
+
+        public void OnSkill(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+                OnSkillPressed?.Invoke(true);
+            if(context.canceled)
+                OnSkillPressed?.Invoke(false);
         }
 
         public Vector3 GetWorldPosition()

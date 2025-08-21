@@ -1,5 +1,7 @@
 using System;
+using Blade.Core;
 using Blade.Entities;
+using Blade.Events;
 using Unity.Behavior;
 using UnityEngine;
 
@@ -8,6 +10,7 @@ namespace Blade.Enemies
     public abstract class Enemy : Entity
     {
         [field: SerializeField] public EntityFinderSO PlayerFinder { get; set; }
+        [field: SerializeField] public GameEventChannelSO PlayerChannel { get; private set; }
         public BehaviorGraphAgent BtAgent { get; private set; }
 
         #region Temp
@@ -16,6 +19,19 @@ namespace Blade.Enemies
         public float attackRange = 2f;
 
         #endregion
+
+        protected override void AfterInitialize()
+        {
+            base.AfterInitialize();
+            PlayerChannel.AddListener<PlayerDead>(HandlePlayerDead);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            PlayerChannel.RemoveListener<PlayerDead>(HandlePlayerDead);
+        }
+
+        protected abstract void HandlePlayerDead(PlayerDead obj);
 
         private void OnDrawGizmosSelected()
         {

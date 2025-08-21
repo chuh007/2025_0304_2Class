@@ -9,7 +9,7 @@ namespace Blade.Combat
         [SerializeField, Range(0f, 1f)] private float castInterpolation = 1f;
         [SerializeField, Range(0f, 3f)] private float castRange = 1f;
         
-        public override void CastDamage(DamageData damageData,Vector3 position, Vector3 direction, AttackDataSO attackData)
+        public override bool CastDamage(DamageData damageData,Vector3 position, Vector3 direction, AttackDataSO attackData)
         {
             Vector3 startPosition = position + direction * -castInterpolation * 2f; //- 붙어있음.
             bool isHit = Physics.SphereCast(startPosition,
@@ -20,20 +20,9 @@ namespace Blade.Combat
                 whatIsTarget);
             if (isHit)
             {
-                if (hit.collider.TryGetComponent(out IDamageable idamageable))
-                {
-                    float damage = 5f; //차후 스탯 시스템과 연동한다.
-                    idamageable.ApplyDamage(damageData, hit.point, hit.normal, attackData, _owner);
-                    Debug.Log($"<color=red>Hit!</color> {hit.collider.name} : {damage}");
-                }
-
-                if (hit.collider.TryGetComponent(out IKnockBackable knockBackable))
-                {
-                    Vector3 force = transform.forward * attackData.knockForce;
-                    knockBackable.KnockBack(force, attackData.knockBackDuration);
-                }
+                ApplyDamageAndKnockBack(hit.collider.transform, damageData, hit.point, hit.normal, attackData);
             }
-
+            return isHit;
         }
         
 #if UNITY_EDITOR

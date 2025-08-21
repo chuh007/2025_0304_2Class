@@ -22,6 +22,11 @@ namespace Blade.Entities
             AfterInitialize();
         }
 
+        protected virtual void Start()
+        {
+            
+        }
+
 
         protected virtual void AddComponents()
         {
@@ -44,5 +49,28 @@ namespace Blade.Entities
             => (T)_components.GetValueOrDefault(typeof(T));
         public IEntityComponent GetCompo(Type type)
             => _components.GetValueOrDefault(type);
+
+        public void DestroyEntity()
+        {
+            Destroy(this);
+        }
+
+        public void RotateToTarget(Vector3 targetPosition, bool isSmooth = false)
+        {
+            Vector3 direction = targetPosition - transform.position;
+            direction.y = 0;
+            Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
+
+            if (isSmooth)
+            {
+                const float smoothRotationSpeed = 15f;
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation,
+                    Time.deltaTime * smoothRotationSpeed);
+            }
+            else
+            {
+                transform.rotation = targetRotation;
+            }
+        }
     }
 }

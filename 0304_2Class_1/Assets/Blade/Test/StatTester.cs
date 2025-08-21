@@ -16,13 +16,13 @@ namespace Blade.Test
         {
             if (Keyboard.current.oKey.wasPressedThisFrame)
             {
-                Debug.Log("ㅁㄴ");
+                Debug.Log("o");
                 statCompo.AddModifier(targetStat, this, modifyValue);
             }
 
             if (Keyboard.current.pKey.wasPressedThisFrame)
             {
-                Debug.Log("ㅂㅈ");
+                Debug.Log("p");
                 statCompo.RemoveModifer(targetStat, this);
             }
         }

@@ -17,11 +17,32 @@ namespace Blade.Enemies
         
         private Entity _entity;
         private EntityStat _statCompo;
+        private Transform _lookAtTrm;
         
         public bool IsArrived => !agent.pathPending 
                                  && agent.remainingDistance <= agent.stoppingDistance + stopOffset;
 
         public float RemainDistance => agent.pathPending ? -1 : agent.remainingDistance;
+        public Vector3 Velocity => agent.velocity;
+
+        public bool UpdateRotate
+        {
+            get => agent.updateRotation;
+            set=> agent.updateRotation = value;
+        }
+
+        private float _speedMultiplier = 1f;
+
+        public float SpeedMultiplier
+        {
+            get => _speedMultiplier;
+            set
+            {
+                _speedMultiplier = value;
+                StatSO target = _statCompo.GetStat(moveSpeedStat);
+                agent.speed = target.Value * _speedMultiplier;
+            }
+        }
         
         public void Initialize(Entity entity)
         {
@@ -37,9 +58,15 @@ namespace Blade.Enemies
 
         private void HandleMoveSpeedChange(StatSO stat, float currentvalue, float prevvalue)
         {
-            agent.speed = currentvalue;
+            agent.speed = currentvalue * _speedMultiplier;
         }
 
+        public void SetLookAtTarget(Transform target)
+        {
+            _lookAtTrm = target;
+            UpdateRotate = _lookAtTrm == null; // 타겟을 처다보도록 할거라서. 로테이션을 끈다.
+        }
+        
         private void OnDestroy()
         {
             _statCompo.UnSubscribeStat(moveSpeedStat, HandleMoveSpeedChange);
@@ -48,7 +75,11 @@ namespace Blade.Enemies
 
         private void Update()
         {
-            if (agent.hasPath && agent.isStopped == false && agent.path.corners.Length > 0)
+            if (_lookAtTrm != null)
+            {
+                LookAtTarget(_lookAtTrm.position);
+            }
+            else if (agent.hasPath && agent.isStopped == false)
             {
                 LookAtTarget(agent.steeringTarget, true);
             }
@@ -115,5 +146,6 @@ namespace Blade.Enemies
             return _entity.transform.position + force;
         }
 
+        public void WarpToPosition(Vector3 destination) => agent.Warp(destination);
     }
 }

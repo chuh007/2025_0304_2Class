@@ -4,7 +4,6 @@ using Chuh007Lib.StatSystem;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-
 namespace Blade.Combat
 {
     public class DamageCalcCompo : MonoBehaviour, IEntityComponent, IAfterInitialize
@@ -13,7 +12,6 @@ namespace Blade.Combat
 
         private EntityStat _statCompo;
         private float _critical, _criticalDamage;
-        
         public void Initialize(Entity entity)
         {
             _statCompo = entity.GetCompo<EntityStat>();
@@ -22,13 +20,13 @@ namespace Blade.Combat
         public void AfterInitialize()
         {
             if (criticalStat is null)
-                _critical = 0;
+                _critical = 0; //스탯이 없으면 크리티컬 확률 0으로 
             else
             {
                 _critical = _statCompo.SubscribeStat(criticalStat, HandleCriticalChange, 0f);
             }
             if (criticalDamageStat is null)
-                _critical = 1;
+                _criticalDamage = 1; //스탯이 없으면 크리티컬 증뎀을 1로 
             else
             {
                 _criticalDamage = _statCompo.SubscribeStat(criticalDamageStat, HandleCriticalDamageChange, 1f);
@@ -43,22 +41,21 @@ namespace Blade.Combat
                 _statCompo.UnSubscribeStat(criticalDamageStat, HandleCriticalDamageChange);
         }
 
+        private void HandleCriticalDamageChange(StatSO stat, float currentvalue, float prevvalue)
+            => _criticalDamage = currentvalue;
 
         private void HandleCriticalChange(StatSO stat, float currentvalue, float prevvalue)
             => _critical = currentvalue;
-        
-        private void HandleCriticalDamageChange(StatSO stat, float currentvalue, float prevvalue)
-            => _criticalDamage = currentvalue;
 
         public DamageData CalculateDamage(StatSO majorStat, AttackDataSO attackData, float multiplier = 1f)
         {
             DamageData data = new DamageData();
             data.damage = _statCompo.GetStat(majorStat).Value * attackData.damageMultiplier +
-                          attackData.damageIncrease * multiplier;
+                   attackData.damageIncrease * multiplier;
 
             if (Random.value < _critical)
             {
-                data.damage *= _criticalDamage;
+                data.damage *= _criticalDamage; //크리티컬 증뎀률 곱해주고
                 data.isCritical = true;
             }
             else

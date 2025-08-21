@@ -13,6 +13,8 @@ namespace Blade.Enemies.BT.Conditions
 
         public override bool IsTrue()
         {
+            if(Target.Value == null) return false;
+            
             float distance = Vector3.Distance(Target.Value.position, Self.Value.transform.position);
             return distance < Self.Value.detectRange; //탐지 거리내에 있는가?
         }

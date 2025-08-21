@@ -50,6 +50,7 @@ namespace Blade.Combat
         {
             _actionData.HitPoint = hitPoint;
             _actionData.HitNormal = hitNormal;
+            _actionData.HitByPowerAttack = attackData.isPowerAttack;
             //넉백은 나중에 처리한다.
             //데미지도 나중에 처리한다.
             

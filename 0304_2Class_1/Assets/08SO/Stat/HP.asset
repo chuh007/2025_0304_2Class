@@ -19,4 +19,4 @@ MonoBehaviour:
   baseValue: 100
   minValue: 0
   maxValue: 99999
-  <isPercent>k__BackingField: 0
+  <IsPercent>k__BackingField: 0

@@ -12,6 +12,7 @@ namespace Blade.Combat
         public float damageIncrease = 0; //추가 데미지 - 합연산
 
         public bool isPowerAttack = false;
+        public float impulseForce; // 카메라 흔들림 정도
         
         public float knockForce;
         public float knockBackDuration;

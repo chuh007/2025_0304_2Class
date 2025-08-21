@@ -10,6 +10,7 @@ namespace Blade.Enemies
         CHASE = 3,
         ATTACK = 4,
         HIT = 5,
-        DEAD = 6
+        DEAD = 6,
+        WANDERING = 7,
     }
 }
