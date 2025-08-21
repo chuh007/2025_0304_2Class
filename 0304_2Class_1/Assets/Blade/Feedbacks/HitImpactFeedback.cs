@@ -1,3 +1,4 @@
+using Blade.Combat;
 using Blade.Effects;
 using Blade.Entities;
 using Chuh007Lib.Dependencies;
@@ -12,6 +13,7 @@ namespace Blade.Feedbacks
         [SerializeField] private PoolItemSO hitImpact;
         [SerializeField] private float playDuration;
         [SerializeField] private EntityActionData actionData;
+        [SerializeField] private DamageType allowedDamageType;
 
         [Inject] private PoolManagerMono _poolManager;
 
@@ -19,6 +21,9 @@ namespace Blade.Feedbacks
         
         public override async void CreateFeedback()
         {
+            if ((actionData.LastDamageData.damageType
+                 & allowedDamageType) == 0) return;
+            
             PoolingEffect effect = _poolManager.Pop<PoolingEffect>(hitImpact);
             Quaternion rotation = Quaternion.LookRotation(actionData.HitNormal * -1);
             

@@ -7,6 +7,7 @@ namespace Blade.Combat
     public class AttackDataSO : ScriptableObject
     {
         public string attackName;
+        public DamageType DamageType = DamageType.MELEE;
         public float movementPower;
         public float damageMultiplier = 1f; //증가데미지 - 곱연산
         public float damageIncrease = 0; //추가 데미지 - 합연산

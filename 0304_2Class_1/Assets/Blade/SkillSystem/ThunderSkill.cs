@@ -1,6 +1,7 @@
 using Blade.Combat;
 using Blade.Effects;
 using Blade.Entities;
+using Blade.Events;
 using Chuh007Lib.Dependencies;
 using Chuh007Lib.ObjectPool.RunTime;
 using Chuh007Lib.StatSystem;
@@ -49,6 +50,12 @@ namespace Blade.SkillSystem
                     DamageData damageData = _damageCompo.CalculateDamage(damageStat, thunderAttackData, damageMultiplier);
                     damageable.ApplyDamage(damageData, target.transform.position, Vector3.up, thunderAttackData, _owner);
                 }
+            }
+
+            if (enemyCount > 0)
+            {
+                ImpulseEvent evt = CameraEvents.ImpulseEvent.Initializer(thunderAttackData.impulseForce);
+                _skillComponent.CameraChannel.RaiseEvent(evt);
             }
         }
 

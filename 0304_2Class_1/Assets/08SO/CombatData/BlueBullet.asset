@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2631812da618435e97dce3131c391c7b, type: 3}
-  m_Name: ThunderAttackData
+  m_Name: BlueBullet
   m_EditorClassIdentifier: 
-  attackName: ThunderAttackData
+  attackName: BlueBullet
   DamageType: 6
   movementPower: 0
-  damageMultiplier: 1
-  damageIncrease: 25
+  damageMultiplier: 1.2
+  damageIncrease: 5
   isPowerAttack: 1
-  impulseForce: 0.9
-  knockForce: 0
-  knockBackDuration: 0
+  impulseForce: 0.3
+  knockForce: 1
+  knockBackDuration: 0.3

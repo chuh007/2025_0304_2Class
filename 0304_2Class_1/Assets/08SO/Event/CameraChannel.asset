@@ -9,15 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2631812da618435e97dce3131c391c7b, type: 3}
-  m_Name: ThunderAttackData
+  m_Script: {fileID: 11500000, guid: 24412f44132247c2bedff213cd7e094e, type: 3}
+  m_Name: CameraChannel
   m_EditorClassIdentifier: 
-  attackName: ThunderAttackData
-  DamageType: 6
-  movementPower: 0
-  damageMultiplier: 1
-  damageIncrease: 25
-  isPowerAttack: 1
-  impulseForce: 0.9
-  knockForce: 0
-  knockBackDuration: 0

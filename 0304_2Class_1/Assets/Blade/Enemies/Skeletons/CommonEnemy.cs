@@ -11,6 +11,7 @@ namespace Blade.Enemies.Skeletons
         public UnityEvent<Vector3, float> OnKnockBack;
         private StateChange _stateChannel;
 
+        [field: SerializeField] public bool IsBattleMode { get; set; } = false;
 
         protected override void Start()
         {
@@ -24,7 +25,6 @@ namespace Blade.Enemies.Skeletons
             base.OnDestroy();
             OnDeadEvent.RemoveListener(HandleDeathEvent);
         }
-
         
         private void HandleDeathEvent()
         {
@@ -49,6 +49,17 @@ namespace Blade.Enemies.Skeletons
         {
             transform.position += deltaPosition;
             transform.rotation = deltaRotation * transform.rotation;
+        }
+
+        public void SetBattleMode()
+        {
+            if(IsBattleMode || IsDead) return;
+            IsBattleMode = true;
+            var stateVar = GetBlackboardVariable<EnemyState>("CurrentState");
+            if (stateVar.Value != EnemyState.HIT)
+            {
+                _stateChannel.SendEventMessage(EnemyState.CHASE);
+            }
         }
     }
 }

@@ -432,6 +432,7 @@ MonoBehaviour:
   hitImpact: {fileID: 11400000, guid: 55394f925d52eb84aa9fe998eb6558af, type: 2}
   playDuration: 0.5
   actionData: {fileID: 4733078602821443593}
+  allowedDamageType: 1
 --- !u!114 &960117826083932498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,6 +448,7 @@ MonoBehaviour:
   slashEffect: {fileID: 11400000, guid: 5e946872e86a6a541b197528761b1f8d, type: 2}
   playDuration: 0.5
   actionData: {fileID: 4733078602821443593}
+  allowedDamageType: 1
 --- !u!114 &3974882697061070753
 MonoBehaviour:
   m_ObjectHideFlags: 0

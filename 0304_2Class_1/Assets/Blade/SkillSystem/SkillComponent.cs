@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Blade.Core;
 using Blade.Entities;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace Blade.SkillSystem
         private Entity _entity;
         private Dictionary<Type, Skill> _skillDict;
         [field: SerializeField] public Skill CurrentSkill { get; set; }
+        [field: SerializeField] public GameEventChannelSO CameraChannel { get; private set; }
         
         public void Initialize(Entity entity)
         {

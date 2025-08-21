@@ -1,3 +1,4 @@
+using Blade.Combat;
 using Blade.Effects;
 using Blade.Entities;
 using Chuh007Lib.Dependencies;
@@ -12,11 +13,15 @@ namespace Blade.Feedbacks
         [SerializeField] private PoolItemSO slashEffect;
         [SerializeField] private float playDuration;
         [SerializeField] private EntityActionData actionData;
+        [SerializeField] private DamageType allowedDamageType;
         
         [Inject] private PoolManagerMono _poolManager;
         
         public override async void CreateFeedback()
         {
+            if ((actionData.LastDamageData.damageType
+                 & allowedDamageType) == 0) return;
+            
             PoolingEffect effect = _poolManager.Pop<PoolingEffect>(slashEffect);
             
             effect.PlayVFX(actionData.HitPoint, Quaternion.identity);

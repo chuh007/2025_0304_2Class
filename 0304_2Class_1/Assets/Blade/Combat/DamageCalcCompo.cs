@@ -63,6 +63,8 @@ namespace Blade.Combat
                 data.isCritical = false;
             }
 
+            data.damageType = attackData.DamageType;
+
             return data;
         }
     }
