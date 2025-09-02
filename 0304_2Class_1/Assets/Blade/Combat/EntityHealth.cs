@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Blade.Combat
 {
-    public class EntityHealth : MonoBehaviour,IEntityComponent, IDamageable, IAfterInitialize
+    public class EntityHealth : MonoBehaviour, IEntityComponent, IDamageable, IAfterInitialize
     {
         private Entity _entity;
         private EntityActionData _actionData;
@@ -13,7 +13,7 @@ namespace Blade.Combat
 
         [SerializeField] private StatSO hpStat;
         [SerializeField] private float maxHealth;
-        [SerializeField] private float currentHealth;
+        [field: SerializeField] public float CurrentHealth { get; private set; }
         
         public void Initialize(Entity entity)
         {
@@ -24,7 +24,7 @@ namespace Blade.Combat
         
         public void AfterInitialize()
         {
-            currentHealth = maxHealth = _statCompo.SubscribeStat(hpStat, HandleMaxHPChange, 10f);
+            CurrentHealth = maxHealth = _statCompo.SubscribeStat(hpStat, HandleMaxHPChange, 10f);
         }
 
         private void OnDestroy()
@@ -38,11 +38,11 @@ namespace Blade.Combat
             maxHealth = currentvalue;
             if (changed > 0)
             {
-                currentHealth = Mathf.Clamp(currentHealth + changed, 0, maxHealth);
+                CurrentHealth = Mathf.Clamp(CurrentHealth + changed, 0, maxHealth);
             }
             else
             {
-                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+                CurrentHealth = Mathf.Clamp(CurrentHealth, 0, maxHealth);
             }
         }
 
@@ -55,8 +55,8 @@ namespace Blade.Combat
             //넉백은 나중에 처리한다.
             //데미지도 나중에 처리한다.
             
-            currentHealth = Mathf.Clamp(currentHealth - damageData.damage, 0, maxHealth);
-            if (currentHealth <= 0)
+            CurrentHealth = Mathf.Clamp(CurrentHealth - damageData.damage, 0, maxHealth);
+            if (CurrentHealth <= 0)
             {
                 _entity.OnDeadEvent?.Invoke();
             }
@@ -64,6 +64,9 @@ namespace Blade.Combat
             _entity.OnHitEvent?.Invoke(); //아직 없다. 만들러 가야해.
         }
 
-        
+        public void ApplyHeal(float value)
+        {
+            CurrentHealth = Mathf.Clamp(CurrentHealth + value, 0, maxHealth);
+        }
     }
 }

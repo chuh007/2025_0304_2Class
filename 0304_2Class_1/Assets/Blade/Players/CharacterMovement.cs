@@ -18,6 +18,8 @@ namespace Blade.Players
         public bool IsGround => controller.isGrounded;
         public bool CanManualMovement { get; set; } = true;
         private Vector3 _autoMovement;
+        private float _autoMoveStartTime;
+        private MovementDataSO _movementData;
 
         private Vector3 _velocity;
         public Vector3 Velocity => _velocity;
@@ -68,7 +70,10 @@ namespace Blade.Players
             }
             else
             {
-                _velocity = _autoMovement * Time.fixedDeltaTime;
+                float normalizedTime = (Time.time - _autoMoveStartTime) / _movementData.duration;
+                float currentSpeed = _movementData.maxSpeed * _movementData.moveCurve.Evaluate(normalizedTime);
+                Vector3 currentMovement = _autoMovement * currentSpeed;
+                _velocity = currentMovement * Time.fixedDeltaTime;
             }
 
             if (_velocity.magnitude > 0 && CanManualMovement)
@@ -100,14 +105,20 @@ namespace Blade.Players
             _movementDirection = Vector3.zero;
         }
         
-        public void SetAutoMovement(Vector3 autoMovement) => _autoMovement = autoMovement;
-
-        public void KnockBack(Vector3 force, float time)
+        // public void SetAutoMovement(Vector3 autoMovement) => _autoMovement = autoMovement;
+        
+        public void ApplyMovementData(Vector3 direction, MovementDataSO movementData)
         {
-            _autoMovement = force;
-            _autoMovement.y = 0;
-
-            DOVirtual.DelayedCall(time, () => _autoMovement = Vector3.zero);
+            _autoMovement = direction;
+            _autoMoveStartTime = Time.time;
+            _movementData = movementData;
+        }
+        
+        public void KnockBack(Vector3 direction, MovementDataSO movementData)
+        {
+            _autoMoveStartTime = Time.time;
+            _autoMovement = direction;
+            _movementData = movementData;
         }
     }
 }

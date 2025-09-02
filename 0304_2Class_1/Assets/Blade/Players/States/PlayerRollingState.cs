@@ -1,4 +1,6 @@
+using Blade.Combat;
 using Blade.Entities;
+using Blade.SkillSystem;
 using UnityEngine;
 
 namespace Blade.Players.States
@@ -7,26 +9,29 @@ namespace Blade.Players.States
     {
         private bool _isRolling;
         private Vector3 _rollingDirection;
+        private SkillComponent _skillCompo;
         
         public PlayerRollingState(Entity entity, int animationHash) : base(entity, animationHash)
         {
+            _skillCompo = entity.GetCompo<SkillComponent>();
         }
 
         public override void Enter()
         {
             base.Enter();
+            MovementDataSO moveData = _skillCompo.GetSkill<RollingSkill>().MovementData;
+            
             _movement.CanManualMovement = false;
             _isRolling = false;
             _rollingDirection = _player.transform.forward; //차후 마우스로 변경 가능
-
-            _animatorTrigger.OnRollingStatusChange += HandleRollingStatusChange;
+            
+            _movement.ApplyMovementData(_rollingDirection, moveData);
         }
 
         public override void Exit()
         {
             _movement.StopImmediately();
             _movement.CanManualMovement = true;
-            _animatorTrigger.OnRollingStatusChange -= HandleRollingStatusChange;
             base.Exit();
         }
 
@@ -37,14 +42,6 @@ namespace Blade.Players.States
             {
                 _player.ChangeState("IDLE");
             }
-        }
-
-        private void HandleRollingStatusChange(bool isRolling)
-        {
-            float velocity = isRolling ? _player.rollingVelocity : _player.rollingVelocity * 0.2f;
-            _movement.SetAutoMovement(_rollingDirection * velocity);
-            
-            _isRolling = isRolling;
         }
     }
 }

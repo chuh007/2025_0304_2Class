@@ -28,8 +28,8 @@ namespace Blade.Players.States
             Vector3 playerDirection = GetPlayerDirection();
             _player.transform.rotation = Quaternion.LookRotation(playerDirection);
 
-            Vector3 movement = playerDirection * currentAttackData.movementPower;
-            _movement.SetAutoMovement(movement);
+            // Vector3 movement = playerDirection * currentAttackData.movementPower;
+            _movement.ApplyMovementData(playerDirection, currentAttackData.movementData);
         }
 
         private Vector3 GetPlayerDirection()

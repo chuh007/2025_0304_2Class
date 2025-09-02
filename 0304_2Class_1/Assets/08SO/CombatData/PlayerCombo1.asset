@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: PlayerCombo1
   m_EditorClassIdentifier: 
   attackName: PlayerCombo1
-  movementPower: 0.8
+  DamageType: 1
+  movementData: {fileID: 11400000, guid: 9d84fb3f76d27004092f8b285b253a68, type: 2}
   damageMultiplier: 1
   damageIncrease: 0
   isPowerAttack: 0
-  knockForce: 0.8
-  knockBackDuration: 0.45
+  impulseForce: 0
+  knockbackMovement: {fileID: 11400000, guid: 85d97de896287cf4991479fba131e70b, type: 2}

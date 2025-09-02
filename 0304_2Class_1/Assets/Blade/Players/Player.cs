@@ -81,7 +81,7 @@ namespace Blade.Players
             ChangeState(rolling);
         }
 
-        private void Start()
+        protected override void Start()
         {
             _stateMachine.ChangeState("IDLE");
         }
@@ -94,9 +94,9 @@ namespace Blade.Players
         public void ChangeState(string newStateName, bool forced = false) 
             => _stateMachine.ChangeState(newStateName, forced);
 
-        public void KnockBack(Vector3 force, float time)
+        public void KnockBack(Vector3 direction, MovementDataSO movementData)
         {
-            _movement.KnockBack(force, time);
+            _movement.KnockBack(direction, movementData);
         }
     }
 }

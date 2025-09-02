@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: SkeletonEnemyAttack
   m_EditorClassIdentifier: 
   attackName: SkeletonEnemyAttack
-  movementPower: 0.3
+  DamageType: 1
+  movementData: {fileID: 0}
   damageMultiplier: 1
   damageIncrease: 0
   isPowerAttack: 1
-  knockForce: 4
-  knockBackDuration: 0.45
+  impulseForce: 0
+  knockbackMovement: {fileID: 11400000, guid: 85d97de896287cf4991479fba131e70b, type: 2}

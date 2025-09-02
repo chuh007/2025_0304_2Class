@@ -1780,6 +1780,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  <IsBattleMode>k__BackingField: 0
 --- !u!114 &3007593853744881502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4042,10 +4043,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7952971897050576485}
     m_Modifications:
-    - target: {fileID: 1076006546280797778, guid: 54b5c3ac60ab5bf4ebc8d3e627c3d308, type: 3}
-      propertyPath: statOverrides.Array.data[1].overrideValue
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 3191143063863748625, guid: 54b5c3ac60ab5bf4ebc8d3e627c3d308, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

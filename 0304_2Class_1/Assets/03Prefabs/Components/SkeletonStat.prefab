@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1876355528068383311, guid: bf5132e6e2d58de41a0940a0f41b9623, type: 3}
       propertyPath: statOverrides.Array.data[1].overrideValue
-      value: 40
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 1876355528068383311, guid: bf5132e6e2d58de41a0940a0f41b9623, type: 3}
       propertyPath: statOverrides.Array.data[3].overrideValue

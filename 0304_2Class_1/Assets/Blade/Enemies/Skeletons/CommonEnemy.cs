@@ -1,4 +1,5 @@
 using Blade.Combat;
+using Blade.Combat.Debuff;
 using Blade.Enemies.BT.Events;
 using Blade.Events;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Blade.Enemies.Skeletons
 {
     public class CommonEnemy : Enemy, IKnockBackable
     {
-        public UnityEvent<Vector3, float> OnKnockBack;
+        public UnityEvent<Vector3, MovementDataSO> OnKnockBack;
         private StateChange _stateChannel;
 
         [field: SerializeField] public bool IsBattleMode { get; set; } = false;
@@ -33,9 +34,9 @@ namespace Blade.Enemies.Skeletons
             _stateChannel.SendEventMessage(EnemyState.DEAD);
         }
         
-        public void KnockBack(Vector3 force, float time)
+        public void KnockBack(Vector3 direction, MovementDataSO movementData)
         {
-            OnKnockBack?.Invoke(force, time);
+            OnKnockBack?.Invoke(direction, movementData);
         }
 
         protected override void HandlePlayerDead(PlayerDead obj)

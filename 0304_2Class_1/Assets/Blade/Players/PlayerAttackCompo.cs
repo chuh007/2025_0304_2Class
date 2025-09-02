@@ -115,9 +115,9 @@ namespace Blade.Players
         public void EndAttack()
         {
             ComboCounter++;
+            if(ComboCounter > 2) ComboCounter = 0;
             _lastAttackTime = Time.time;
         }
-
         
     }
 }

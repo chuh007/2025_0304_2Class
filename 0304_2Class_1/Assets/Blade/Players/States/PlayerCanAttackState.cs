@@ -36,6 +36,10 @@ namespace Blade.Players.States
                 chargeable.StartCharging();
                 _player.ChangeState("CHARGING");
             }
+            else if (isPressed)
+            {
+                _player.ChangeState("SKILL");
+            }
         }
 
         private void HandleAttackPressed()

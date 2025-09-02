@@ -9,15 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2631812da618435e97dce3131c391c7b, type: 3}
-  m_Name: BlueBullet
+  m_Script: {fileID: 11500000, guid: 06cc64e0d4a94d1fb98ee06ee9388cae, type: 3}
+  m_Name: DuatCurse
   m_EditorClassIdentifier: 
-  attackName: BlueBullet
-  DamageType: 6
-  movementPower: 0
-  damageMultiplier: 1.2
-  damageIncrease: 5
-  isPowerAttack: 1
-  impulseForce: 0.3
-  knockForce: 1
-  knockBackDuration: 0.3
+  debuff: 2
+  particle: {fileID: 340954484074940851, guid: 7c2670c00cd4f7245b6fbd2524e70ad3, type: 3}

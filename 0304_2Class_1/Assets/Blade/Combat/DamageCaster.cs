@@ -22,10 +22,9 @@ namespace Blade.Combat
                 damageable.ApplyDamage(damageData, position, normal, attackData, _owner);
             }
 
-            if (target.TryGetComponent(out IKnockBackable knockBackable))
+            if (attackData.knockbackMovement != null && target.TryGetComponent(out IKnockBackable knockBackable))
             {
-                Vector3 force = transform.forward * attackData.knockForce;
-                knockBackable.KnockBack(force, attackData.knockBackDuration);
+                knockBackable.KnockBack(transform.forward, attackData.knockbackMovement);
             }
         }
         

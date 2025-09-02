@@ -2,6 +2,7 @@ using System;
 using Blade.Combat;
 using Blade.Entities;
 using Chuh007Lib.StatSystem;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
@@ -111,22 +112,29 @@ namespace Blade.Enemies
         public void SetVelocity(Vector3 velocity) => agent.velocity = velocity;
         public void SetSpeed(float speed) => agent.speed = speed;
         public void SetDestination(Vector3 destination) => agent.SetDestination(destination);
-        public void KnockBack(Vector3 force, float time)
+        public async void KnockBack(Vector3 direction, MovementDataSO movementData)
         {
             SetStop(true);
-            Vector3 destination = GetKnockBackEndPosition(force);
-            Vector3 delta = destination - _entity.transform.position;
-            float knockBackDuration = delta.magnitude * time / force.magnitude;
-            // force : time = delta : ?
             
-            _entity.transform.DOMove(destination, knockBackDuration)
-                .SetEase(Ease.OutCirc)
-                .OnComplete(() =>
-                {
-                    agent.Warp(transform.position); // 에이전트를 내 현제 transform 기준으로 이동시킨다.
-                    SetStop(false); // 네비게이션을 가동하도록 한다.
-                });
+            float duration = movementData.duration;
+            float currentTime = 0;
+            float maxSpeed = movementData.maxSpeed;
+            AnimationCurve curve = movementData.moveCurve;
+
+            while (currentTime < duration)
+            {
+                float normalizedTime = currentTime / duration;
+                float currentSpeed = maxSpeed * curve.Evaluate(normalizedTime);
+                Vector3 currentMovement = direction * currentSpeed;
+                _entity.transform.Translate(currentMovement * Time.fixedDeltaTime, Space.World);
+                currentTime += Time.fixedDeltaTime;
+                await UniTask.WaitForFixedUpdate(destroyCancellationToken);
+            }
             
+            if(destroyCancellationToken.IsCancellationRequested)
+                return;
+            WarpToPosition(_entity.transform.position);
+            SetStop(false);
         }
 
         /// <summary>

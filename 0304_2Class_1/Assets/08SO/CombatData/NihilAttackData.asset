@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2631812da618435e97dce3131c391c7b, type: 3}
+  m_Name: NihilAttackData
+  m_EditorClassIdentifier: 
+  attackName: NihilAttackData
+  DamageType: 6
+  movementData: {fileID: 0}
+  damageMultiplier: 3
+  damageIncrease: 25
+  isPowerAttack: 1
+  impulseForce: 2
+  knockbackMovement: {fileID: 11400000, guid: 79da01ef867df4346ba7120a2d05d80d, type: 2}

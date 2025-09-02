@@ -8,15 +8,16 @@ namespace Blade.Combat
     {
         public string attackName;
         public DamageType DamageType = DamageType.MELEE;
-        public float movementPower;
+        public MovementDataSO movementData;
         public float damageMultiplier = 1f; //증가데미지 - 곱연산
         public float damageIncrease = 0; //추가 데미지 - 합연산
 
         public bool isPowerAttack = false;
         public float impulseForce; // 카메라 흔들림 정도
         
-        public float knockForce;
-        public float knockBackDuration;
+        // public float knockForce;
+        // public float knockBackDuration;
+        public MovementDataSO knockbackMovement;
         
         private void OnEnable()
         {

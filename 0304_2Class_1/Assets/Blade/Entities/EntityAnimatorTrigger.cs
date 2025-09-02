@@ -6,11 +6,11 @@ namespace Blade.Entities
     public class EntityAnimatorTrigger : MonoBehaviour, IEntityComponent
     {
         public Action OnAnimationEndTrigger;
-        public Action<bool> OnRollingStatusChange;
         public Action OnAttackVFXTrigger;
         public Action<bool> OnManualRotationTrigger;
         public Action OnDamageCastTrigger;
         public Action<bool> OnDamageToggleTrigger;
+        public Action OnCastSkillTrigger;
         
         private Entity _entity;
 
@@ -23,9 +23,8 @@ namespace Blade.Entities
         {
             OnAnimationEndTrigger?.Invoke();
         }
-
-        private void RollingStart() => OnRollingStatusChange?.Invoke(true);
-        private void RollingEnd() => OnRollingStatusChange?.Invoke(false);
+        
+        private void CastSkill() => OnCastSkillTrigger?.Invoke();
         private void PlayAttackVFX() => OnAttackVFXTrigger?.Invoke();
         
         private void StartManualRotation() => OnManualRotationTrigger?.Invoke(true);

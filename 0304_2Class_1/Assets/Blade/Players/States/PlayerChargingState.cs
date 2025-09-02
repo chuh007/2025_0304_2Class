@@ -8,14 +8,12 @@ namespace Blade.Players.States
     {
         private readonly int _chargingTrigger = Animator.StringToHash("CHARGING_END");
 
-        private CharacterMovement _movement;
         private SkillComponent _skillComponent;
         private IChargeable _targetSkill;
         private bool _isReleased;
         
         public PlayerChargingState(Entity entity, int animationHash) : base(entity, animationHash)
         {
-            _movement = entity.GetCompo<CharacterMovement>();
             _skillComponent = entity.GetCompo<SkillComponent>();
         }
 

@@ -45,3 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownDuration: 1
+  <MovementData>k__BackingField: {fileID: 11400000, guid: 28652e643d777f942aa1f51bc9fa5603, type: 2}
+  <EffectChannel>k__BackingField: {fileID: 11400000, guid: 100de9c02d2912f4092d5c99dc6dcce8, type: 2}
+  rollingEffect: {fileID: 11400000, guid: 05c571305c20fcf4db061c9f30104f56, type: 2}

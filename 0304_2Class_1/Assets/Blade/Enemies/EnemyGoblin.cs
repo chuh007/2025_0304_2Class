@@ -8,7 +8,7 @@ namespace Blade.Enemies
 {
     public class EnemyGoblin : Enemy, IKnockBackable
     {
-        public UnityEvent<Vector3, float> OnKnockBack;
+        public UnityEvent<Vector3, MovementDataSO> OnKnockBack;
         private StateChange _stateChannel;
         
         protected override void Start()
@@ -38,9 +38,9 @@ namespace Blade.Enemies
             _stateChannel.SendEventMessage(EnemyState.IDLE);
         }
 
-        public void KnockBack(Vector3 force, float time)
+        public void KnockBack(Vector3 direction, MovementDataSO movementData)
         {
-            OnKnockBack?.Invoke(force, time);
+            OnKnockBack?.Invoke(direction, movementData);
         }
 
         public void HandleChildAnimatorMove(Vector3 deltaPosition, Quaternion deltaRotation)
